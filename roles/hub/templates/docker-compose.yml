@@ -1,0 +1,6 @@
+jupyterhub:
+    build: /srv/jupyterhub
+    restart: always
+    ports:
+      - "{{ ansible_host }}:8000:8000"
+      - "{{ ansible_host }}:8081:8081"

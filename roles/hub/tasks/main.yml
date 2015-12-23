@@ -1,0 +1,27 @@
+---
+- include: jupyterhub.yml
+
+- name: install docker-compose.yml
+  template: src=docker-compose.yml dest=/root/docker-compose.yml
+
+- name: stop docker containers
+  command: docker-compose stop
+
+- name: remove docker containers
+  command: docker-compose rm -f
+
+- name: pull docker images
+  command: docker-compose pull
+
+- name: build docker images
+  command: docker-compose build
+
+- name: run jupyterhub
+  command: docker-compose up -d jupyterhub
+
+- name: wait for jupyterhub to start
+  command: docker logs root_jupyterhub_1
+  register: jpy_status
+  until: jpy_status.stderr.find("JupyterHub is now running") != -1
+  retries: 5
+  delay: 5

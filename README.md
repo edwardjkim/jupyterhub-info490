@@ -7,12 +7,15 @@ Intro to Data Science class at the University of Illinois.
 
 On Scientific Linux,
 
+```bash
 $ sudo yum install python python-devel python-pip
 $ sudo pip install paramiko PyYAML Jinja2 httplib2 six
+```
 
 ## Install Ansible
 
+```bash
 $ git clone git://github.com/ansible/ansible.git --recursive
 $ cd ./ansible
 $ source ./hacking/env-setup
-
+```

@@ -1,0 +1,28 @@
+---
+- name: configuration directories
+  file: state=directory dest=/srv/httpd mode=0755
+
+- name: apache configuration
+  template: src=httpd.conf.j2 dest=/srv/httpd/httpd.conf mode=0644
+
+- name: copy the Dockerfile to the nginx configuration directory
+  template: src=Dockerfile.j2 dest=/srv/httpd/Dockerfile mode=0644
+
+- name: install docker-compose.yml
+  template: src=docker-compose.yml dest=/root/docker-compose.yml
+
+- name: stop docker containers
+  command: docker-compose stop
+
+- name: remove docker containers
+  command: docker-compose rm -f
+
+- name: pull docker images
+  command: docker-compose pull
+
+- name: build docker images
+  command: docker-compose build
+
+- name: start services
+  command: docker-compose up -d
+

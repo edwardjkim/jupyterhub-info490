@@ -1,0 +1,26 @@
+---
+- name: add yum repo
+  copy: src=docker.repo
+        dest=/etc/yum.repos.d/
+        owner=root group=root mode=0644
+
+- name: install docker engine
+  yum: name=docker-engine state=latest
+
+- name: restart docker
+  service: name=docker state=restarted
+
+- name: docker-py
+  pip: name=docker-py state=present version=1.1.0
+
+- name: stop running docker containers
+  shell: docker stop $(docker ps -a -q) || true
+
+- name: remove docker containers
+  shell: docker rm -v $(docker ps -a -q) || true
+
+- name: install docker-compose
+  shell: curl -L https://github.com/docker/compose/releases/download/1.5.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+
+- name: make docker-compose executable
+  file: path=/usr/local/bin/docker-compose mode="u+x"

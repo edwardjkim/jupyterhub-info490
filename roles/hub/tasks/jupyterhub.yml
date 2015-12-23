@@ -1,0 +1,5 @@
+---
+- name: copy Dockerfile for jupyterhub
+  template:
+    src: Dockerfile.j2
+    dest: /srv/jupyterhub

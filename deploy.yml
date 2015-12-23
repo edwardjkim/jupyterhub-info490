@@ -1,5 +1,21 @@
 ---
 - hosts:
   - proxy
+  - jupyterhub_host
   roles:
   - common
+
+- hosts:
+  - proxy
+  - jupyterhub_host
+  roles:
+  - docker
+
+- hosts:
+  - proxy
+  roles:
+  - proxy
+
+- hosts: jupyterhub_host
+  roles:
+  - hub
