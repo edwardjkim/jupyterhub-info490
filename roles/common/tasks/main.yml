@@ -1,0 +1,15 @@
+---
+- name: install vim for ops sanity
+  yum: name=vim update_cache=yes state=latest
+
+- name: python
+  yum: name=python state=latest
+
+- name: pip
+  yum: name=python-pip state=latest
+
+- name: pip upgrade
+  pip: name=pip state=latest
+
+- name: upgrade all packages
+  yum: name=* state=latest
