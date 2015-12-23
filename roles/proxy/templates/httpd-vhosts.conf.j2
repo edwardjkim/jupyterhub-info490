@@ -1,0 +1,15 @@
+# https://github.com/jupyter/jupyterhub/issues/219
+<VirtualHost *:80>
+ProxyPass / http://{{ jupyterhub_host }}:8000/
+ProxyPassReverse / http://{{ jupyterhub_host }}:8000/
+
+Header edit Origin {{ ansible_host }} {{ jupyterhub_host }}:8000
+RequestHeader edit Origin {{ ansible_host }} {{ jupyterhub_host }}:8000
+
+Header edit Referer {{ ansible_host }} {{ jupyterhub_host }}:8000
+RequestHeader edit Referer {{ ansible_host }} {{ jupyterhub_host }}:8000
+<Location ~ "/(user/[^/]*)/(api/kernels/[^/]+/channels|terminals/websocket)/?">
+    ProxyPass ws://{{ jupyterhub_host }}:8000
+    ProxyPassReverse ws://{{ jupyterhub_host }}:8000
+</Location>
+</VirtualHost>

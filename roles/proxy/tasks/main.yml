@@ -3,9 +3,9 @@
   file: state=directory dest=/srv/httpd mode=0755
 
 - name: apache configuration
-  template: src=httpd.conf.j2 dest=/srv/httpd/httpd.conf mode=0644
+  template: src=httpd-vhosts.conf.j2 dest=/srv/httpd/httpd-vhosts.conf mode=0644
 
-- name: copy the Dockerfile to the nginx configuration directory
+- name: copy the Dockerfile to the apache configuration directory
   template: src=Dockerfile.j2 dest=/srv/httpd/Dockerfile mode=0644
 
 - name: install docker-compose.yml
@@ -25,4 +25,3 @@
 
 - name: start services
   command: docker-compose up -d
-
