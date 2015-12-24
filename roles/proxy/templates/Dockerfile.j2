@@ -21,6 +21,7 @@ RUN cd /etc/httpd/conf && \
     mkdir /var/lock/subsys
 
 COPY httpd-vhosts.conf /etc/httpd/conf/extra/httpd-vhosts.conf
+COPY shib.conf /etc/httpd/conf.d/shib.conf
 COPY httpd-foreground /usr/local/bin/
 COPY certs/ca.key /etc/httpd/certs/ca.key
 COPY certs/ca.crt /etc/httpd/certs/ca.crt

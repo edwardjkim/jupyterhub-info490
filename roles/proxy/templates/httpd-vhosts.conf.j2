@@ -28,6 +28,9 @@
     Header set Referer https://{{ ansible_host }}
     RequestHeader set Referer https://{{ ansible_host }}
 
+    Header set Remote-User %{REMOTE_USER}s
+    RequestHeader set Remote-User %{REMOTE_USER}s
+
     <Location ~ "/(user/[^/]*)/(api/kernels/[^/]+/channels|terminals/websocket)/?">
         ProxyPass ws://{{ jupyterhub_host }}:8000
         ProxyPassReverse ws://{{ jupyterhub_host }}:8000
