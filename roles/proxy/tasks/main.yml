@@ -2,11 +2,17 @@
 - name: configuration directories
   file: state=directory dest=/srv/httpd mode=0755
 
+- name: apache startup script
+  copy: src=httpd-foreground dest=/srv/httpd/httpd-foreground mode=0755
+
 - name: apache configuration
   template: src=httpd-vhosts.conf.j2 dest=/srv/httpd/httpd-vhosts.conf mode=0644
 
 - name: copy the Dockerfile to the apache configuration directory
   template: src=Dockerfile.j2 dest=/srv/httpd/Dockerfile mode=0644
+
+- name: a shibboleth configuration file
+  template: src=shibboleth2.xml.j2 dest=/srv/httpd/shibboleth2.xml mode=0644
 
 - name: install docker-compose.yml
   template: src=docker-compose.yml dest=/root/docker-compose.yml

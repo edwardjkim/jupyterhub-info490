@@ -1,15 +1,35 @@
 # https://github.com/jupyter/jupyterhub/issues/219
 <VirtualHost *:80>
-ProxyPass / http://{{ jupyterhub_host }}:8000/
-ProxyPassReverse / http://{{ jupyterhub_host }}:8000/
+    ServerName {{ ansible_host }}
+    Redirect permanent / https://{{ ansible_host }}/
+</VirtualHost>
 
-Header edit Origin {{ ansible_host }} {{ jupyterhub_host }}:8000
-RequestHeader edit Origin {{ ansible_host }} {{ jupyterhub_host }}:8000
+<VirtualHost *:443>
+    ServerName {{ ansible_host }}
+    SSLEngine On
+    SSLCertificateFile /etc/httpd/certs/ca.crt
+    SSLCertificateKeyFile /etc/httpd/certs/ca.key
 
-Header edit Referer {{ ansible_host }} {{ jupyterhub_host }}:8000
-RequestHeader edit Referer {{ ansible_host }} {{ jupyterhub_host }}:8000
-<Location ~ "/(user/[^/]*)/(api/kernels/[^/]+/channels|terminals/websocket)/?">
-    ProxyPass ws://{{ jupyterhub_host }}:8000
-    ProxyPassReverse ws://{{ jupyterhub_host }}:8000
-</Location>
+    ProxyRequests Off
+    SSLProxyEngine On
+
+    <Proxy *>
+        Order deny,allow
+        Allow from all
+    </Proxy>
+
+    ProxyPreserveHost on
+    ProxyPass / http://{{ jupyterhub_host }}:8000/
+    ProxyPassReverse / http://{{ jupyterhub_host }}:8000/
+
+    Header set Origin https://{{ ansible_host }}
+    RequestHeader set Origin https://{{ ansible_host }}
+
+    Header set Referer https://{{ ansible_host }}
+    RequestHeader set Referer https://{{ ansible_host }}
+
+    <Location ~ "/(user/[^/]*)/(api/kernels/[^/]+/channels|terminals/websocket)/?">
+        ProxyPass ws://{{ jupyterhub_host }}:8000
+        ProxyPassReverse ws://{{ jupyterhub_host }}:8000
+    </Location>
 </VirtualHost>
