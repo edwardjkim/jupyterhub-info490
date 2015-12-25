@@ -1,5 +1,22 @@
 ---
+- fail: msg="admin list is empty"
+  when: jupyterhub_admins|length == 0
+
+- name: create the jupyterhub directory
+  file: path=/srv/jupyterhub state=directory
+
 - name: copy Dockerfile for jupyterhub
-  template:
-    src: Dockerfile.j2
-    dest: /srv/jupyterhub
+  template: src=Dockerfile.j2 dest=/srv/jupyterhub/Dockerfile
+
+- name: create the jupyterhub configuration file
+  template: src=jupyterhub_config.py.j2 dest=/srv/jupyterhub/jupyterhub_config.py
+
+- name: create the remote user authenticator script
+  copy: src=remote_user_auth.py dest=/srv/jupyterhub/remote_user_auth.py
+
+- name: create the jupyterhub_users directory
+  file: path=/srv/jupyterhub_users state=directory
+
+- name: create the userlist
+  template: src=userlist.j2 dest=/srv/jupyterhub_users/userlist
+

@@ -26,6 +26,7 @@ COPY httpd-foreground /usr/local/bin/
 COPY certs/ca.key /etc/httpd/certs/ca.key
 COPY certs/ca.crt /etc/httpd/certs/ca.crt
 COPY shibboleth2.xml /etc/shibboleth/shibboleth2.xml
+COPY attribute-map.xml /etc/shibboleth/attribute-map.xml
 
 EXPOSE 80 443
 

@@ -1,0 +1,23 @@
+# Configuration file for Jupyter Hub
+import os
+import sys
+sys.path.insert(0, '/srv/jupyterhub_config')
+
+c = get_config()
+
+c.JupyterHub.log_level = 'DEBUG'
+c.JupyterHub.admin_access = True
+
+c.JupyterHub.authenticator_class = 'remote_user_auth.RemoteUserAuthenticator'
+c.Authenticator.admin_users = admin = set()
+c.Authenticator.whitelist = whitelist = set()
+
+with open('/srv/jupyterhub_users/userlist') as f:
+    for line in f:
+        if line.isspace():
+            continue
+        parts = line.split()
+        name = parts[0]
+        whitelist.add(name)
+        if len(parts) > 1 and parts[1] == 'admin':
+            admin.add(name)

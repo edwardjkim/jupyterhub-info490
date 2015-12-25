@@ -17,5 +17,7 @@
   - proxy
 
 - hosts: jupyterhub_host
+  vars_files:
+  - users.yml
   roles:
   - hub

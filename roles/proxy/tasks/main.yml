@@ -17,6 +17,9 @@
 - name: another shib configuratoin file
   copy: src=shib.conf dest=/srv/httpd/shib.conf
 
+- name: another shib configuratoin file
+  copy: src=attribute-map.xml dest=/srv/httpd/attribute-map.xml
+
 - name: install docker-compose.yml
   template: src=docker-compose.yml dest=/root/docker-compose.yml
 
