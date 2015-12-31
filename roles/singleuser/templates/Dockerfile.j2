@@ -1,0 +1,22 @@
+# Build as jupyter/jupyterhub-singleuser
+# Run with the DockerSpawner in JupyterHub
+
+FROM lcdm/rppdm-standalone
+
+USER root
+ENV HOSTNAME "{{ ansible_host }}"
+
+# fetch juptyerhub-singleuser entrypoint
+ADD https://raw.githubusercontent.com/jupyter/jupyterhub/master/jupyterhub/singleuser.py /usr/local/bin/jupyterhub-singleuser
+RUN chmod 755 /usr/local/bin/jupyterhub-singleuser
+
+USER data_scientist
+
+WORKDIR /home/data_scientist/
+
+EXPOSE 8888
+
+ADD singleuser.sh /srv/singleuser/singleuser.sh
+
+CMD ["sh", "/srv/singleuser/singleuser.sh"]
+

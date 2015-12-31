@@ -66,3 +66,6 @@ vault-password
 old
 vars.local.yml
 certificates.bak
+host_vars/jupyterhub_host
+host_vars/jupyterhub_node1
+host_vars/jupyterhub_node2

@@ -2,13 +2,13 @@
 - name: install vim for ops sanity
   yum: name=vim update_cache=yes state=latest
 
-- name: python
+- name: install python
   yum: name=python state=latest
 
-- name: pip
+- name: install pip
   yum: name=python-pip state=latest
 
-- name: pip upgrade
+- name: upgrade pip
   pip: name=pip state=latest
 
 - name: upgrade all packages

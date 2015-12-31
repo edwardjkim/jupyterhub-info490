@@ -1,0 +1,16 @@
+consul:
+    hostname: "{{ inventory_hostname }}"
+    image: progrium/consul
+    restart: always
+    ports:
+    - "{{ private_ip }}:8300:8300"
+    - "{{ private_ip }}:8301:8301"
+    - "{{ private_ip }}:8301:8301/udp"
+    - "{{ private_ip }}:8302:8302"
+    - "{{ private_ip }}:8302:8302/udp"
+    - "{{ private_ip }}:8400:8400"
+    - "{{ private_ip }}:8500:8500"
+    - "{{ docker_bridge_ip }}:53:53/udp"
+    volumes:
+    - /srv/consul:/data
+    command: -server "-advertise={{ private_ip }}" -data-dir=/data -bootstrap-expect=1 -client=0.0.0.0

@@ -1,7 +1,8 @@
 ---
-- include: jupyterhub.yml
+- name: create a data directory for consul
+  file: path=/srv/consul state=directory
 
-- name: install docker compose
+- name: install docker-compose.yml
   template: src=docker-compose.yml dest=/root/docker-compose.yml
 
 - name: stop docker containers
@@ -16,13 +17,5 @@
 - name: build docker images
   command: docker-compose build
 
-- name: run jupyterhub
+- name: run docker containers
   command: docker-compose up -d
-
-- name: wait for jupyterhub to start
-  command: docker logs root_jupyterhub_1
-  register: jpy_status
-  until: jpy_status.stderr.find("JupyterHub is now running") != -1
-  retries: 5
-  delay: 5
-

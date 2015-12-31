@@ -2,12 +2,14 @@
 - hosts:
   - proxy
   - jupyterhub_host
+  - jupyterhub_nodes
   roles:
   - common
 
 - hosts:
   - proxy
   - jupyterhub_host
+  - jupyterhub_nodes
   roles:
   - docker
 
@@ -16,7 +18,19 @@
   roles:
   - proxy
 
-- hosts: jupyterhub_host
+- hosts:
+  - jupyterhub_host
+  roles:
+  - consul_server
+
+- hosts:
+  - jupyterhub_nodes
+  roles:
+  - consul_client
+  - singleuser
+
+- hosts: 
+  - jupyterhub_host
   vars_files:
   - users.yml
   roles:

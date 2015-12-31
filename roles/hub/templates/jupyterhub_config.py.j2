@@ -6,11 +6,30 @@ sys.path.insert(0, '/srv/jupyterhub_config')
 c = get_config()
 
 c.JupyterHub.log_level = 'DEBUG'
+
+c.JupyterHub.db_url = 'sqlite:////srv/jupyterhub/jupyterhub.sqlite'
+
+c.JupyterHub.log_file = "/srv/jupyterhub/jupyterhub.log"
+
 c.JupyterHub.admin_access = True
 
 c.JupyterHub.authenticator_class = 'remote_user_auth.RemoteUserAuthenticator'
 c.Authenticator.admin_users = admin = set()
 c.Authenticator.whitelist = whitelist = set()
+
+#The docker instances need access to the Hub, so the default loopback port
+# doesn't work. We need to tell the hub to listen on 0.0.0.0 because it's in a
+# container, and we'll expose the port properly when the container is run. Then,
+# we explicitly tell the spawned containers to connect to the proper IP address.
+c.JupyterHub.proxy_api_ip = '0.0.0.0'
+c.JupyterHub.hub_ip = '0.0.0.0'
+c.DockerSpawner.hub_ip_connect = os.environ['HUB_IP']
+
+c.JupyterHub.spawner_class = 'swarmspawner.SwarmSpawner'
+c.DockerSpawner.container_image = 'edwardjkim/singleuser'
+#c.DockerSpawner.tls_cert = os.environ['DOCKER_TLS_CERT']
+#c.DockerSpawner.tls_key = os.environ['DOCKER_TLS_KEY']
+c.DockerSpawner.remove_containers = True
 
 with open('/srv/jupyterhub_users/userlist') as f:
     for line in f:
