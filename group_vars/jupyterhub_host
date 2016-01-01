@@ -1,3 +1,0 @@
----
-docker_server_tls: no
-docker_client_tls: no

@@ -1,8 +1,8 @@
 consul:
-    image: progrium/consul
-    hostname: "{{ inventory_hostname }}"
-    restart: always
-    ports:
+  build: /srv/consul
+  hostname: "{{ inventory_hostname }}"
+  restart: always
+  ports:
     - "{{ private_ip }}:8300:8300"
     - "{{ private_ip }}:8301:8301"
     - "{{ private_ip }}:8301:8301/udp"
@@ -10,13 +10,34 @@ consul:
     - "{{ private_ip }}:8302:8302/udp"
     - "{{ private_ip }}:8400:8400"
     - "{{ private_ip }}:8500:8500"
+    - "{{ private_ip }}:8501:8501"
     - "{{ docker_bridge_ip }}:53:53/udp"
-    volumes:
+  volumes:
     - /srv/consul:/data
-    command: -rejoin "-advertise={{ private_ip }}" "-join={{ jupyterhub_host }}" -data-dir=/data
+    - /root/.docker:/root/.docker
+  command: >
+    -rejoin
+    "-advertise={{ private_ip }}"
+    "-join={{ jupyterhub_host }}"
+    -data-dir=/data
 
 
 swarm:
-    image: swarm
-    restart: always
-    command: join "--addr={{ private_ip }}:2375" "consul://{{ jupyterhub_host }}:8500/swarm"
+  image: swarm
+  restart: always
+  volumes:
+    - /root/.docker:/root/.docker
+  command: >
+    join
+    "--addr={{ private_ip }}:2375"
+    --discovery-opt kv.cacertfile=/root/.docker/ca.pem
+    --discovery-opt kv.certfile=/root/.docker/cert.pem
+    --discovery-opt kv.keyfile=/root/.docker/key.pem
+    "consul://{{ jupyterhub_host }}:8501/swarm"
+
+
+singleuser:
+  build: /srv/singleuser
+  restart: always
+  volumes:
+    - /root/.docker:/root/.docker

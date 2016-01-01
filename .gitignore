@@ -69,3 +69,4 @@ certificates.bak
 host_vars/jupyterhub_host
 host_vars/jupyterhub_node1
 host_vars/jupyterhub_node2
+host_vars/proxy_server

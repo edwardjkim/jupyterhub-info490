@@ -1,12 +1,4 @@
 ---
-# This is the path to where the docker TLS certificates are stored -- this is
-# necessary for the SwarmSpawner to actually be able to communicate with swarm
-docker_tls_path: /root/.docker
-
 # This is the port that swarm will attempt to connect to for each of the
 # Docker hosts
 docker_server_port: 2376
-
-# This is the strategy that swarm will use to allocate containers. For details
-# on the different options, see the swarm documentation.
-docker_swarm_strategy: spread

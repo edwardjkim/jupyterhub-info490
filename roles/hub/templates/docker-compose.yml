@@ -1,25 +1,33 @@
 swarm:
-    image: swarm
-    restart: always
-#    command: manage -H 127.0.0.1:{{ docker_server_port }} --tlsverify --tlscacert={{ docker_tls_path }}/ca.pem --tlscert={{ docker_tls_path }}/cert.pem --tlskey={{ docker_tls_path }}/key.pem file:///root/.swarm/cluster
-    command: manage "consul://{{ private_ip }}:8500/swarm"
-    volumes:
-      - "{{ docker_tls_path }}:{{ docker_tls_path }}"
-    ports:
-      - "{{ docker_server_port }}:2375"
+  image: swarm
+  restart: always
+  command: >
+    manage 
+    --tlsverify
+    --tlscacert /root/.docker/ca.pem
+    --tlscert /root/.docker/cert.pem
+    --tlskey /root/.docker/key.pem
+    --discovery-opt kv.cacertfile=/root/.docker/ca.pem
+    --discovery-opt kv.certfile=/root/.docker/cert.pem
+    --discovery-opt kv.keyfile=/root/.docker/key.pem
+    "consul://{{ private_ip }}:8501/swarm"
+  volumes:
+    - /root/.docker:/root/.docker
+  ports:
+    - "{{ docker_server_port }}:2375"
 
 jupyterhub:
-    build: /srv/jupyterhub
-    restart: always
-    environment:
-      HUB_IP: "{{ private_ip }}"
-#      DOCKER_TLS_CERT: "{{ docker_tls_path }}/cert.pem"
-#      DOCKER_TLS_KEY: "{{ docker_tls_path }}/key.pem"
-    ports:
-      - "{{ private_ip }}:8000:8000"
-      - "{{ private_ip }}:8081:8081"
-    volumes:
-      - /srv/jupyterhub_users:/srv/jupyterhub_users
-      - "{{ docker_tls_path }}:{{ docker_tls_path }}"
-    links:
-      - swarm
+  build: /srv/jupyterhub
+  restart: always
+  environment:
+    HUB_IP: "{{ private_ip }}"
+    DOCKER_TLS_CERT: /root/.docker/cert.pem
+    DOCKER_TLS_KEY: /root/.docker/key.pem
+  ports:
+    - "{{ private_ip }}:8000:8000"
+    - "{{ private_ip }}:8081:8081"
+  volumes:
+    - /srv/jupyterhub_users:/srv/jupyterhub_users
+    - /root/.docker:/root/.docker
+  links:
+    - swarm

@@ -1,6 +1,8 @@
 httpd:
-    build: /srv/httpd
-    restart: always
-    ports:
-      - 80:80
-      - 443:443
+  build: /srv/httpd
+  restart: always
+  ports:
+    - 80:80
+    - 443:443
+  volumes:
+    - /root/.docker:/root/.docker

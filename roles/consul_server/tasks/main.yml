@@ -5,6 +5,15 @@
 - name: install docker-compose.yml
   template: src=docker-compose.yml dest=/root/docker-compose.yml
 
+- name: create consul config directory
+  file: path=/root/config state=directory
+
+- name: install custom consul Dockerfile
+  copy: src=Dockerfile dest=/root/Dockerfile
+
+- name: install consul config
+  template: src=consul.json.j2 dest=/root/config/consul.json
+
 - name: stop docker containers
   command: docker-compose stop
 

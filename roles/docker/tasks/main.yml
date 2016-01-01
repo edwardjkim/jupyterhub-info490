@@ -1,34 +1,31 @@
 ---
 - fail: msg="docker_ca_cert is undefined"
-  when: (docker_client_tls or docker_server_tls) and docker_ca_cert == ''
-- fail: msg="docker_tls_cert is undefined"
-  when: (docker_client_tls or docker_server_tls) and docker_tls_cert == ''
-- fail: msg="docker_tls_key is undefined"
-  when: (docker_client_tls or docker_server_tls) and docker_tls_key == ''
+  when: docker_ca_cert == ''
 
+- fail: msg="docker_tls_cert is undefined"
+  when: docker_tls_cert == ''
+
+- fail: msg="docker_tls_key is undefined"
+  when: docker_tls_key == ''
 
 - name: add yum repo
-  copy: src=docker.repo
-        dest=/etc/yum.repos.d/
-        owner=root group=root mode=0644
+  copy: src=docker.repo dest=/etc/yum.repos.d/ owner=root group=root mode=0644
 
 - name: install docker engine
   yum: name=docker-engine state=latest
 
 - name: create docker TLS directory
-  file: path={{ docker_tls_path }} state=directory
-  when: docker_client_tls or docker_server_tls
+  file: path=/root/.docker state=directory
 
 - name: install docker TLS credentials
   template: src={{ item.from }} dest={{ item.to }} mode=0644
   with_items:
     - from: ca.pem.j2
-      to: "{{ docker_tls_path }}/ca.pem"
+      to: /root/.docker/ca.pem
     - from: key.pem.j2
-      to: "{{ docker_tls_path }}/key.pem"
+      to: /root/.docker/key.pem
     - from: cert.pem.j2
-      to: "{{ docker_tls_path }}/cert.pem"
-  when: docker_client_tls or docker_server_tls
+      to: /root/.docker/cert.pem
 
 - name: docker-py
   pip: name=docker-py state=present version=1.1.0
@@ -47,6 +44,9 @@
 
 - name: set DOCKER_HOST
   lineinfile: dest=/etc/environment state=present line="DOCKER_HOST=tcp://{{ private_ip }}:2375"
+
+- name: set DOCKER_TLS_VERIFY
+  lineinfile: dest=/etc/environment state=present line="DOCKER_TLS_VERIFY=1"
 
 - name: create a systemd directory
   file: path=/etc/systemd/system/docker.service.d state=directory
