@@ -23,6 +23,8 @@ jupyterhub:
     HUB_IP: "{{ private_ip }}"
     DOCKER_TLS_CERT: /root/.docker/cert.pem
     DOCKER_TLS_KEY: /root/.docker/key.pem
+    JPY_COOKIE_SECRET: "{{ cookie_secret }}"
+    CONFIGPROXY_AUTH_TOKEN: "{{ configproxy_auth_token }}"
   ports:
     - "{{ private_ip }}:8000:8000"
     - "{{ private_ip }}:8081:8081"

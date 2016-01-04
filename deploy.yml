@@ -32,5 +32,6 @@
   - jupyterhub_host
   vars_files:
   - users.yml
+  - vars.yml
   roles:
   - hub

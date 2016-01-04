@@ -1,0 +1,15 @@
+# This is the port that swarm will attempt to connect to for each of the
+# # Docker hosts
+docker_server_port:
+
+#This is the auth token for JupyterHub. You can create it with:
+#     openssl rand -hex 16
+# Note that this should never be stored in plaintext; you should probably
+# override it in an encrypted vault file.
+configproxy_auth_token: ""
+
+# This is the cookie secret for JupyterHub. You can create it with:
+#     openssl rand -hex 2048
+# Note that this should never be stored in plaintext; you should probably
+# override it in an encrypted vault file.
+cookie_secret: ""
