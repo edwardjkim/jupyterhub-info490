@@ -1,7 +1,7 @@
 # https://github.com/cwaldbieser
 import os
 from jupyterhub.handlers import BaseHandler
-from jupyterhub.auth import Authenticator
+from jupyterhub.auth import Authenticator, LocalAuthenticator
 from jupyterhub.utils import url_path_join
 from tornado import gen, web
 from traitlets import Unicode
@@ -38,3 +38,8 @@ class RemoteUserAuthenticator(Authenticator):
     def authenticate(self, *args):
         raise NotImplementedError()
 
+
+class LocalRemoteUserAuthenticator(LocalAuthenticator, RemoteUserAuthenticator):
+
+    """A version that mixes in local system user creation"""
+    pass
