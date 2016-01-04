@@ -4,7 +4,6 @@
 FROM lcdm/rppdm-standalone
 
 USER root
-ENV HOSTNAME "{{ ansible_host }}"
 
 # fetch juptyerhub-singleuser entrypoint
 ADD https://raw.githubusercontent.com/jupyter/jupyterhub/master/jupyterhub/singleuser.py /usr/local/bin/jupyterhub-singleuser

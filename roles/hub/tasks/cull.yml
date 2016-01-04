@@ -1,0 +1,6 @@
+---
+- name: create the cull directory
+  file: path=/srv/cull state=directory
+
+- name: copy Dockerfile for jupyterhub
+  copy: src=Dockerfile.cull dest=/srv/cull/Dockerfile

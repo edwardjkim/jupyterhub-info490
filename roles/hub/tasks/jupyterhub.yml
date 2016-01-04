@@ -6,7 +6,7 @@
   file: path=/srv/jupyterhub state=directory
 
 - name: copy Dockerfile for jupyterhub
-  template: src=Dockerfile.j2 dest=/srv/jupyterhub/Dockerfile
+  template: src=Dockerfile.jupyterhub.j2 dest=/srv/jupyterhub/Dockerfile
 
 - name: create the jupyterhub configuration file
   template: src=jupyterhub_config.py.j2 dest=/srv/jupyterhub/jupyterhub_config.py

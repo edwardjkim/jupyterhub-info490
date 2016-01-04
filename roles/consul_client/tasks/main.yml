@@ -17,15 +17,6 @@
 - name: install consul config
   template: src=consul.json.j2 dest=/srv/consul/config/consul.json
 
-- name: create the singleuser directory
-  file: path=/srv/singleuser state=directory
-
-- name: copy the Dockerfile to the singleuser directory
-  template: src=Dockerfile.singleuser.j2 dest=/srv/singleuser/Dockerfile
-
-- name: copy singleuser.sh to the singleuser directory
-  copy: src=singleuser.sh dest=/srv/singleuser/singleuser.sh
-
 - name: stop docker containers
   command: docker-compose stop
 

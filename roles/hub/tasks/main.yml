@@ -1,5 +1,9 @@
 ---
+- fail: msg="jupyterhub_admin_user is not defined"
+  when: jupyterhub_admin_user == ''
+
 - include: jupyterhub.yml
+- include: cull.yml
 
 - name: install docker compose
   template: src=docker-compose.yml dest=/root/docker-compose.yml
@@ -17,7 +21,7 @@
   command: docker-compose build
 
 - name: run jupyterhub
-  command: docker-compose up -d
+  command: docker-compose up -d jupyterhub
 
 - name: wait for jupyterhub to start
   command: docker logs root_jupyterhub_1
@@ -26,3 +30,9 @@
   retries: 5
   delay: 5
 
+- name: get a jupyterhub api token
+  command: docker exec root_jupyterhub_1 jupyterhub token -f /srv/jupyterhub_config/jupyterhub_config.py {{ jupyterhub_admin_user }}
+  register: jpy_api_token
+
+- name: start remaining services
+  shell: JPY_API_TOKEN={{ jpy_api_token.stdout }} docker-compose up -d --no-recreate

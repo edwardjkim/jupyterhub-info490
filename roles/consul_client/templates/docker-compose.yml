@@ -34,10 +34,3 @@ swarm:
     --discovery-opt kv.certfile=/root/.docker/cert.pem
     --discovery-opt kv.keyfile=/root/.docker/key.pem
     "consul://{{ jupyterhub_host }}:8501/swarm"
-
-
-singleuser:
-  build: /srv/singleuser
-  restart: always
-  volumes:
-    - /root/.docker:/root/.docker

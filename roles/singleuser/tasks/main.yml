@@ -1,0 +1,12 @@
+---
+- name: create the singleuser directory
+  file: path=/srv/singleuser state=directory
+
+- name: copy the Dockerfile to the singleuser directory
+  template: src=Dockerfile.singleuser.j2 dest=/srv/singleuser/Dockerfile
+
+- name: copy singleuser.sh to the singleuser directory
+  copy: src=singleuser.sh dest=/srv/singleuser/singleuser.sh
+
+- name: build singleuser image
+  shell: docker build -t singleuser /srv/singleuser

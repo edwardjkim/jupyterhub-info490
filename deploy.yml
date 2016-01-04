@@ -27,6 +27,7 @@
   - jupyterhub_nodes
   roles:
   - consul_client
+  - singleuser
 
 - hosts: 
   - jupyterhub_host
