@@ -3,6 +3,40 @@
 This repository contains an Ansible playbook for launching JupyterHub for the
 Intro to Data Science class at the University of Illinois.
 
+The setup is inspired by [the compmodels class](https://github.com/compmodels/jupyterhub-deploy)
+but there are some major differences:
+
+1.  Shibboleth authentication: Jupyterhub runs behind Shibboleth (via Apache).
+2.  [Consul](https://www.consul.io/): Consul serves as the back-end discovery service
+    for the Swarm cluster.
+3.  Instead of creating creating users on the host system and using the
+    [systemuser Docker image](https://github.com/jupyter/dockerspawner/tree/master/systemuser),
+    we change the ownership of the files on the host system to the `jupyter` user and mount
+    the appropriate directory onto the
+    [singleuser Docker image](https://github.com/jupyter/dockerspawner/tree/master/singleuser).
+
+
+## Overview
+
+When a user accesses the server, the following happens behind the scenes:
+
+1.  First, they go to the main url for the server.
+2.  This url actually points to an Apache proxy server which authenticates the TSL connection,
+    and proxies the connection to Shibboleth.
+3.  After students are autheticated by Shibboleth, they are redirected to the JupyterHub instance
+running on the hub server. 
+4.  The hub server is both a NFS server (to serve user's home directories) and the JupyterHub server.
+    JupyterHub runs in a docker container called `jupyterhub`.
+5.  When they access their server, JupyterHub creates a new docker container on one of the node servers
+    running an IPython notebook server.
+    This docker container is called "jupyter-username", where "username" is the user's username.
+6.  As users open IPython notebooks and run them, they are actually communicating
+    with one of the node servers.
+    The URL still appears the same, because the connection is first being proxied to the hub server
+    via the proxy server, and then proxied a second time to the node server via the JupyterHub proxy.
+7.  Users have access to their home directory, because each node server is also a NFS client
+    with the filesystem mounted at /home.
+
 ## Installation
 
 ### Install Docker
