@@ -1,0 +1,33 @@
+---
+- name: install nfs pakcages
+  yum: name=nfs-utils,nfs-utils-lib state=latest
+
+- name: stop nfs
+  service: name=nfs state=stopped
+
+- name: stop rpcbind
+  service: name=rpcbind state=stopped
+
+- name: unmount existing volumes
+  shell: umount /export || true
+
+- name: create a ext4 filesystem on /dev/sdb
+  filesystem: fstype=ext4 dev=/dev/sdb
+
+- name: create mount directory
+  file: name=/mnt/volume state=directory
+
+- name: mount storage volume
+  mount: name=/mnt/volume src=/dev/sdb fstype=ext4 state=mounted
+
+- name: bind mount to export directory
+  mount: name=/export src=/mnt/volume fstype=none opts=bind state=mounted
+
+- name: install /etc/exports
+  template: src=exports dest=/etc/exports mode=0644
+
+- name: start rpcbind
+  service: name=rpcbind state=started
+
+- name: start nfs-server
+  service: name=nfs state=started

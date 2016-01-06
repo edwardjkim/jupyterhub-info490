@@ -2,6 +2,8 @@
 # Docker hosts
 docker_server_port: 2376
 
+docker_bridge_ip: ""
+
 #This is the auth token for JupyterHub. You can create it with:
 #     openssl rand -hex 16
 # Note that this should never be stored in plaintext; you should probably

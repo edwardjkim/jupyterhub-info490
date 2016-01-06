@@ -1,0 +1,2 @@
+# Options to mount NFS with
+nfsoptions: rw,_netdev,auto

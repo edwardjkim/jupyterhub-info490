@@ -36,6 +36,26 @@
 - name: remove docker containers
   shell: docker rm -v $(docker ps -a -q) || true
 
+# Build our own bridge for docker
+- name: install docker TLS credentials
+  template: src=ifcfg-br0.j2 dest=/etc/sysconfig/network-scripts/ifcfg-br0
+  register: bridge
+
+- name: reboot host
+  shell: nohup bash -c "sleep 2s && reboot" &
+  register: reboot
+  when: bridge.changed
+
+- name: wait for host boot
+  local_action:
+    module: wait_for
+    host: "{{ ansible_ssh_host }}"
+    port: 22
+    delay: "{{ boot_wait | default(60) }}"
+    timeout: 120
+    state: started
+  when: reboot.changed
+
 - name: install docker-compose
   shell: curl -L https://github.com/docker/compose/releases/download/1.5.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
 
@@ -55,4 +75,4 @@
   copy: src=docker-host.conf dest=/etc/systemd/system/docker.service.d/docker-host.conf
 
 - name: start docker daemon
-  service: name=docker state=restarted
+  service: name=docker state=started

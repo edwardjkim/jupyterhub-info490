@@ -90,7 +90,33 @@ $ cp users.yml.example users.yml
 $ vim users.yml
 ```
 
+```shell
+$ cp vars.yml.example vars.yml
+$ vim vars.yml
+```
+
 ### Generate TLS/SSL certificates
+
+### SSL certificates for Apache
+
+Get signed SSL certificates from a certificate authority, rename the files to
+`ca.crt` and `ca.key`, and move them to `/srv/httpd/certs`.
+
+```shell
+$ mkdir -p /srv/httpd/certs
+$ chmod 700 /srv/httpd/certs
+$ mv ca.crt /srv/httpd/certs/ca.crt
+$ chmod 600 /srv/httpd/certs/ca.crt
+$ chown root:root /srv/httpd/certs/ca.crt
+$ mv ca.key /srv/httpd/certs/ca.key
+$ chmod 600 /srv/httpd/certs/ca.key
+$ chown root:root /srv/httpd/certs/ca.key
+```
+
+You can also generate and use self-signed certificates, but self-signed certificates
+may not work with some web browswers (e.g. Safari).
+
+### TLS certificates for Docker
 
 You'll need to generate SSL/TLS certificates for the hub server and node servers.
 To do this, you can use the keymaster docker container.

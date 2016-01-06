@@ -10,6 +10,8 @@
   - proxy
   - jupyterhub_host
   - jupyterhub_nodes
+  vars_files:
+  - vars.yml
   roles:
   - docker
 
@@ -21,10 +23,24 @@
 - hosts:
   - jupyterhub_host
   roles:
+  - nfs_server
+
+- hosts:
+  - jupyterhub_nodes
+  roles:
+  - nfs_client
+
+- hosts:
+  - jupyterhub_host
+  vars_files:
+  - vars.yml
+  roles:
   - consul_server
 
 - hosts:
   - jupyterhub_nodes
+  vars_files:
+  - vars.yml
   roles:
   - consul_client
   - singleuser

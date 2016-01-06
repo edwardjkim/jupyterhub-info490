@@ -19,6 +19,30 @@ class SwarmSpawner(SystemUserSpawner):
 
     singleuser = Unicode('data_scientist', config=True)
 
+    @property
+    def volume_binds(self):
+        """
+        The second half of declaring a volume with docker-py happens when you
+        actually call start().  The required format is a dict of dicts that
+        looks like:
+        {
+            host_location: {'bind': container_location, 'ro': True}
+        }
+        """
+        volumes = {
+            key: {'bind': value, 'ro': False}
+            for key, value in self.volumes.items()
+        }
+        ro_volumes = {
+            key: {'bind': value, 'ro': True}
+            for key, value in self.read_only_volumes.items()
+        }
+        volumes[os.path.join('/home', self.user.name)] = (
+            '/home/{}'.format(self.singleuser)
+        )
+        volumes.update(ro_volumes)
+        return volumes
+
     @gen.coroutine
     def lookup_node_name(self):
         """Find the name of the swarm node that the container is running on."""

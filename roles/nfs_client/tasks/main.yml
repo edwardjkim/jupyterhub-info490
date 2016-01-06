@@ -1,0 +1,9 @@
+---
+- name: install nfs pakcages
+  yum: name=nfs-utils,nfs-utils-lib state=latest
+
+- name: unmount home
+  shell: umount /home || true
+
+- name: mount home
+  mount: name=/home src={{ hostvars['jupyterhub_host']['private_ip'] }}:/home fstype=nfs opts={{ nfsoptions }} state=mounted
