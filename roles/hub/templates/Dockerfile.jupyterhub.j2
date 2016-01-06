@@ -23,10 +23,5 @@ EXPOSE 8001
 # environment variable for swarm
 ENV DOCKER_HOST https://swarm:2375
 
-# disable "Stop My Server" button since it doesn't work with Apache
-RUN sed -i '/Stop My Server/s/<a id="stop".*<\/a>/<a id="stop"><\/a>/' /usr/local/share/jupyter/hub/templates/home.html
-# disable "Logout" button since we can't log out of a Shibboleth session from Jupyterhub
-RUN sed -i '/Logout/s/<a id="logout".*<\/a>/<a id="logout"><\/a>/' /usr/local/share/jupyter/hub/templates/page.html
-
 ENTRYPOINT ["jupyterhub", "-f", "/srv/jupyterhub_config/jupyterhub_config.py"]
 

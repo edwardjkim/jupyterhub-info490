@@ -22,11 +22,11 @@
     ProxyPass / http://{{ jupyterhub_host }}:8000/
     ProxyPassReverse / http://{{ jupyterhub_host }}:8000/
 
-    Header set Origin https://{{ ansible_host }}
-    RequestHeader set Origin https://{{ ansible_host }}
+    Header edit Referer https://{{ ansible_host }}:8888/hub/admin {{ ansible_host }}/hub
+    RequestHeader edit Referer https://{{ ansible_host }}:8888/hub/admin {{ ansible_host }}/hub
 
-    Header set Referer https://{{ ansible_host }}
-    RequestHeader set Referer https://{{ ansible_host }}
+    Header edit Referer https://{{ ansible_host }}:8888/hub/home {{ ansible_host }}/hub
+    RequestHeader edit Referer https://{{ ansible_host }}:8888/hub/home {{ ansible_host }}/hub
 
     Header set Remote-User %{REMOTE_USER}s
     RequestHeader set Remote-User %{REMOTE_USER}s
@@ -35,4 +35,5 @@
         ProxyPass ws://{{ jupyterhub_host }}:8000
         ProxyPassReverse ws://{{ jupyterhub_host }}:8000
     </Location>
+
 </VirtualHost>
