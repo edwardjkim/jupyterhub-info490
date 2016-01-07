@@ -1,6 +1,30 @@
 ---
+- fail: msg="site_cert is undefined"
+  when: site_cert == ''
+
+- fail: msg="site_key is undefined"
+  when: site_key == ''
+
+- fail: msg="shib_cert is undefined"
+  when: shib_cert == ''
+
+- fail: msg="shib_key is undefined"
+  when: shib_key == ''
+
 - name: configuration directories
   file: state=directory dest=/srv/httpd mode=0755
+
+- name: site certificate directoreis
+  file: state=directory dest={{ site_cert_path }} mode=0755
+
+- name: site key directories
+  file: state=directory dest={{ site_key_path }} mode=0700 group=root owner=root
+
+- name: site SSL certificate
+  template: src=site.crt.j2 dest="{{ site_cert_path }}/ca.crt" mode=0644
+
+- name: site SSL key
+  template: src=site.key.j2 dest="{{ site_key_path }}/ca.key" mode=0600 group=root owner=root
 
 - name: apache startup script
   copy: src=httpd-foreground dest=/srv/httpd/httpd-foreground mode=0755
@@ -19,6 +43,15 @@
 
 - name: yet another shib configuratoin file
   copy: src=attribute-map.xml dest=/srv/httpd/attribute-map.xml
+
+- name: copy the itrust certificate
+  copy: src=itrust.pem dest=/srv/httpd/itrust.pem
+
+- name: Shibboleth SSL certificate
+  template: src=shib.crt.j2 dest=/srv/httpd/sp-cert.pem mode=0644
+
+- name: Shibboleth SSL key
+  template: src=shib.key.j2 dest=/srv/httpd/sp-key.pem mode=0600 group=root owner=root
 
 - name: install docker-compose.yml
   template: src=docker-compose.yml dest=/root/docker-compose.yml

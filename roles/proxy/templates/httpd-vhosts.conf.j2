@@ -7,8 +7,8 @@
 <VirtualHost *:443>
     ServerName {{ ansible_host }}
     SSLEngine On
-    SSLCertificateFile /etc/httpd/certs/ca.crt
-    SSLCertificateKeyFile /etc/httpd/certs/ca.key
+    SSLCertificateFile {{ site_cert_path }}/ca.crt
+    SSLCertificateKeyFile {{ site_key_path }}/ca.key
 
     ProxyRequests Off
     SSLProxyEngine On

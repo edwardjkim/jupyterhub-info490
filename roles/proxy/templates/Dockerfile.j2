@@ -23,10 +23,11 @@ RUN cd /etc/httpd/conf && \
 COPY httpd-vhosts.conf /etc/httpd/conf/extra/httpd-vhosts.conf
 COPY shib.conf /etc/httpd/conf.d/shib.conf
 COPY httpd-foreground /usr/local/bin/
-COPY certs/ca.key /etc/httpd/certs/ca.key
-COPY certs/ca.crt /etc/httpd/certs/ca.crt
 COPY shibboleth2.xml /etc/shibboleth/shibboleth2.xml
 COPY attribute-map.xml /etc/shibboleth/attribute-map.xml
+COPY itrust.pem /etc/shibboleth/itrust.pem
+COPY sp-cert.pem /etc/shibboleth/sp-cert.pem
+COPY sp-key.pem /etc/shibboleth/sp-key.pem
 
 EXPOSE 80 443
 

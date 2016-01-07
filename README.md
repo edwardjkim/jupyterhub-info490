@@ -97,24 +97,37 @@ $ vim vars.yml
 
 ### Generate TLS/SSL certificates
 
+You will need to generate three sets of key and certificate for the web server,
+Shibboleth, and Docker sockets.
+
 ### SSL certificates for Apache
 
-Get signed SSL certificates from a certificate authority, rename the files to
-`ca.crt` and `ca.key`, and move them to `/srv/httpd/certs`.
+Get signed SSL certificates from a certificate authority and edit `host_vars`.
 
 ```shell
-$ mkdir -p /srv/httpd/certs
-$ chmod 700 /srv/httpd/certs
-$ mv ca.crt /srv/httpd/certs/ca.crt
-$ chmod 600 /srv/httpd/certs/ca.crt
-$ chown root:root /srv/httpd/certs/ca.crt
-$ mv ca.key /srv/httpd/certs/ca.key
-$ chmod 600 /srv/httpd/certs/ca.key
-$ chown root:root /srv/httpd/certs/ca.key
+$ cp host_vars/example host_vars/proxy_server
+$ vim host_vars/proxy_server
 ```
 
 You can also generate and use self-signed certificates, but self-signed certificates
 may not work with some web browswers (e.g. Safari).
+
+### SSL certificates for Shibboleth
+
+Generate a key and certificate to be used by the Shibboleth service provider (SP).
+Note that this is different from the web server certificate.
+
+In the below commands, we will use the `keygen.sh` script provided by Shibboleth.
+`your.host.name` is the hostname you chose for your `entityID`.
+These commands will create a key and cert pair, `sp-key.pem` and `sp-cert.pem`.
+
+See [Setting up Shibboleth for U of I](https://answers.uillinois.edu/illinois/48459).
+
+```shell
+$ ./script/keygen.sh -o certificates -h your.host.name -e https://your.host.name/shibboleth -y 10
+```
+
+Use SP's certificate `sp-cert.pem` to register with [iTrust](https://itrust.illinois.edu/federationregistry/).
 
 ### TLS certificates for Docker
 
@@ -139,6 +152,12 @@ ${KEYMASTER} signed-keypair -n server1 -h server1.website.com -p both -s IP:192.
 ```
 
 You'll need to generate keypairs for the hub server and for each of the node servers.
+Don't forget to edit the `host_vars` files.
+
+```shell
+$ cp host_vars/example host_vars/jupyterhub_host
+$ vim host_vars/jupyterhub_host
+```
 
 ## Deploy
 

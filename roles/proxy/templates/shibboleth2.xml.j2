@@ -1,77 +1,60 @@
-<!--
-This is an example shibboleth2.xml generated for you by TestShib.  It's reduced and recommended
-specifically for testing.  You don't need to change anything, but you may want to explore the file
-to learn about how your SP works.  Uncomment attributes in your attribute-map.xml file to test them.
-
-If you want to test advanced functionality, start from the distribution shibboleth2.xml and add the
-MetadataProvider, the right entityID, and a properly configured SSO element.  More information:
-
-https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPConfiguration
--->
-
-<SPConfig xmlns="urn:mace:shibboleth:2.0:native:sp:config" xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata"
-    clockSkew="1800">
-
-    <!-- The entityID is the name TestShib made for your SP. -->
-    <ApplicationDefaults entityID="https://{{ ansible_host}}/shibboleth"
-        REMOTE_USER="uid">
-
-        <!-- You should use secure cookies if at all possible.  See cookieProps in this Wiki article. -->
-        <!-- https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPSessions -->
-        <Sessions lifetime="28800" timeout="3600" checkAddress="false" relayState="ss:mem" handlerSSL="false">
-
-            <!-- Triggers a login request directly to the TestShib IdP. -->
-            <!-- https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPServiceSSO -->
-            <SSO entityID="https://idp.testshib.org/idp/shibboleth">
-                SAML2 SAML1
-            </SSO>
-
-            <!-- SAML and local-only logout. -->
-            <!-- https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPServiceLogout -->
-            <Logout>SAML2 Local</Logout>
-
-            <!--
-                Handlers allow you to interact with the SP and gather more information.  Try them out!
-                Attribute values received by the SP through SAML will be visible at:
-                http://{{ ansible_host }}/Shibboleth.sso/Session
-            -->
-
-            <!-- Extension service that generates "approximate" metadata based on SP configuration. -->
-            <Handler type="MetadataGenerator" Location="/Metadata" signing="false"/>
-
-            <!-- Status reporting service. -->
-            <Handler type="Status" Location="/Status" acl="127.0.0.1"/>
-
-            <!-- Session diagnostic service. -->
-            <Handler type="Session" Location="/Session" showAttributeValues="true"/>
-
-            <!-- JSON feed of discovery information. -->
-            <Handler type="DiscoveryFeed" Location="/DiscoFeed"/>
-
-        </Sessions>
-
-        <!-- Error pages to display to yourself if something goes horribly wrong. -->
-        <Errors supportContact="root@localhost" logoLocation="/shibboleth-sp/logo.jpg" 
-                styleSheet="/shibboleth-sp/main.css"/>
-
-        <!-- Loads and trusts a metadata file that describes only the Testshib IdP and how to communicate with it. -->
-        <MetadataProvider type="XML" uri="http://www.testshib.org/metadata/testshib-providers.xml"
-             backingFilePath="testshib-two-idp-metadata.xml" reloadInterval="180000" />
-
-        <!-- Attribute and trust options you shouldn't need to change. -->
-        <AttributeExtractor type="XML" validate="true" path="attribute-map.xml"/>
-        <AttributeResolver type="Query" subjectMatch="true"/>
-        <AttributeFilter type="XML" validate="true" path="attribute-policy.xml"/>
-
-        <!-- Your SP generated these credentials.  They're used to talk to IdP's. -->
-        <CredentialResolver type="File" key="sp-key.pem" certificate="sp-cert.pem"/>
-
-    </ApplicationDefaults>
-    
-    <!-- Security policies you shouldn't change unless you know what you're doing. -->
-    <SecurityPolicyProvider type="XML" validate="true" path="security-policy.xml"/>
-
-    <!-- Low-level configuration about protocols and bindings available for use. -->
-    <ProtocolProvider type="XML" validate="true" reloadChanges="false" path="protocols.xml"/>
-
-</SPConfig>
+<SPConfig xmlns="urn:mace:shibboleth:2.0:native:sp:config"
+    xmlns:conf="urn:mace:shibboleth:2.0:native:sp:config"
+    xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+    xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol"
+    xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata"
+    clockSkew="180">
+	<!--
+	     Put your SP's unique entity ID in the below entityID attribute
+	     Optional: set attributes you want assigned to remote_user,
+	     space-separated, in REMOTE_USER. The first attribute in
+	     your list that is sent by the IDP will be used.
+	 -->
+	<ApplicationDefaults entityID="https://{{ shibboleth_host }}/shibboleth"
+	    REMOTE_USER="uid">
+		<!--
+		     Lifetime is the max length of a session in seconds.
+		     Timeout is the inactivity time-out in seconds.
+		-->
+		<Sessions lifetime="28800" timeout="3600" relayState="ss:mem"
+			checkAddress="false" handlerSSL="true" cookieProps="https">
+			    <!--
+				 Below setting will use Urbana campus
+				 IDP only.
+			    -->
+			    <SSO entityID="urn:mace:incommon:uiuc.edu"
+			    discoveryProtocol="SAMLDS" discoveryURL="">
+			    SAML2 SAML1
+			</SSO>
+			<Logout>SAML2 Local</Logout>
+			<Handler type="MetadataGenerator" Location="/Metadata" signing="false"/>
+			<Handler type="Status" Location="/Status" acl="127.0.0.1 ::1"/>
+			<Handler type="Session" Location="/Session" showAttributeValues="false"/>
+			<Handler type="DiscoveryFeed" Location="/DiscoFeed"/>
+		</Sessions>
+		<!--
+		     Set the email address that's displayed in error
+		     templates. Also set the help URL.
+		-->
+		<Errors supportContact="{{ support_contact }}"
+			helpLocation="/about.html"
+			styleSheet="/shibboleth-sp/main.css"/>
+		<!-- Configuration to consume I-Trust metadata. -->
+		<MetadataProvider type="XML" uri="https://discovery.itrust.illinois.edu/itrust-metadata/itrust-metadata.xml"
+			    backingFilePath="itrust-metadata.xml" reloadInterval="7200">
+		    <MetadataFilter type="RequireValidUntil" maxValidityInterval="2419200"/>
+		    <MetadataFilter type="Signature" certificate="itrust.pem"/>
+		    <!-- Limit users to those from Urbana's IDP -->
+		    <MetadataFilter type="Whitelist">
+			<Include>urn:mace:incommon:uiuc.edu</Include>
+		    </MetadataFilter>
+		</MetadataProvider>
+		<AttributeExtractor type="XML" validate="true" reloadChanges="false"
+			path="attribute-map.xml"/>
+		<AttributeResolver type="Query" subjectMatch="true"/>
+		<AttributeFilter type="XML" validate="true" path="attribute-policy.xml"/>
+		<CredentialResolver type="File" key="sp-key.pem" certificate="sp-cert.pem"/>
+	</ApplicationDefaults>
+	<SecurityPolicyProvider type="XML" validate="true" path="security-policy.xml"/>
+	<ProtocolProvider type="XML" validate="true" reloadChanges="false" path="protocols.xml"/>
+</SPConfig>

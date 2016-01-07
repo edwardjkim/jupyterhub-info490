@@ -6,3 +6,5 @@ httpd:
     - 443:443
   volumes:
     - /root/.docker:/root/.docker
+    - "{{ site_key_path }}:{{ site_key_path }}:ro"
+    - "{{ site_cert_path }}:{{ site_cert_path }}:ro"
