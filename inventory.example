@@ -1,14 +1,9 @@
+[proxy]
+proxy_server ansible_user=root ansible_host=<public ip> private_ip=<private ip> jupyterhub_host=<jupyterhub ip> shibboleth_host=<public ip>
+
 [jupyterhub_host]
-jupyterhub_host ansible_user=root ansible_host=<public IP>
+jupyterhub_host ansible_user=root ansible_host=<public ip> private_ip=<private ip> hostname=hub
 
 [jupyterhub_nodes]
-jupyterhub_node1 ansible_user=root ansible_host=<public IP>
-jupyterhub_node2 ansible_user=root ansible_host=<public IP>
-jupyterhub_node3 ansible_user=root ansible_host=<public IP>
-jupyterhub_node4 ansible_user=root ansible_host=<public IP>
-jupyterhub_node5 ansible_user=root ansible_host=<public IP>
-jupyterhub_node6 ansible_user=root ansible_host=<public IP>
-jupyterhub_node7 ansible_user=root ansible_host=<public IP>
-
-[proxy]
-proxy_server ansible_user=root ansible_host=<public IP> jupyterhub_host=<IP of jupyterhub>
+jupyterhub_node1 ansible_user=root ansible_host=<public ip> private_ip=<private ip> jupyterhub_host=<jupyterhub ip> hostname=node1
+jupyterhub_node2 ansible_user=root ansible_host=<public ip> private_ip=<private ip> jupyterhub_host=<jupyterhub ip> nostname=node2
