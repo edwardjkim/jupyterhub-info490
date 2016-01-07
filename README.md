@@ -158,6 +158,17 @@ Don't forget to edit the `host_vars` files.
 $ cp host_vars/example host_vars/jupyterhub_host
 $ vim host_vars/jupyterhub_host
 ```
+## Encrypt with ansible-vault
+
+Some files, such as SSL certificates and `vars.yml`, should not be stored in plain text.
+
+```shell
+$ ansible-vault encrypt vars.yml
+$ ansible-vault encrypt host_vars/proxy_server
+$ ansible-vault encrypt host_vars/jupyterhub_host
+$ ansible-vault encrypt host_vars/jupyterhub_node1
+$ ansible-vault encrypt host_vars/jupyterhub_node2
+```
 
 ## Deploy
 
@@ -165,4 +176,4 @@ $ vim host_vars/jupyterhub_host
 $ ./script/deploy
 ```
 
-This shell script asks for SSH passwords.
+This shell script will ask for SSH passwords and ansible-vault password.

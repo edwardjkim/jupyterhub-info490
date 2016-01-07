@@ -8,4 +8,4 @@ if [ ! -e ${ROOT}//inventory ]; then
   exit 1
 fi
 
-exec ansible-playbook ${ROOT}/deploy.yml -i ${ROOT}/inventory --ask-pass -c paramiko $@
+exec ansible-playbook ${ROOT}/deploy.yml -i ${ROOT}/inventory --ask-pass --ask-vault-pass -c paramiko $@

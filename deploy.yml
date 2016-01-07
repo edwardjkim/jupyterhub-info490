@@ -17,6 +17,8 @@
 
 - hosts:
   - proxy
+  vars_files:
+  - vars.yml
   roles:
   - proxy
 
