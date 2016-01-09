@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPLinuxRH6
+export LD_LIBRARY_PATH=/opt/shibboleth/lib64:$LD_LIBRARY_PATH
+
 /etc/shibboleth/shibd-redhat start
 
 # Apache gets grumpy about PID files pre-existing

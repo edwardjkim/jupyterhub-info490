@@ -6,7 +6,7 @@ RUN yum -y update && \
     yum -y install vim wget && \
     wget -P /etc/yum.repos.d \
         http://download.opensuse.org/repositories/security://shibboleth/CentOS_7/security:shibboleth.repo && \
-    yum -y install httpd shibboleth.x86_64 && \
+    yum -y install httpd shibboleth.x86_64 libcurl-openssl libcurl-openssl-devel && \
     chmod +x /etc/shibboleth/shibd-redhat && \
     yum -y install mod_ssl
 

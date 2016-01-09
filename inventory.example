@@ -1,5 +1,5 @@
 [proxy]
-proxy_server ansible_user=root ansible_host=<public ip> private_ip=<private ip> jupyterhub_host=<jupyterhub ip> shibboleth_host=<public ip>
+proxy_server ansible_user=root ansible_host=<public ip> private_ip=<private ip> jupyterhub_host=<jupyterhub ip>
 
 [jupyterhub_host]
 jupyterhub_host ansible_user=root ansible_host=<public ip> private_ip=<private ip> hostname=hub

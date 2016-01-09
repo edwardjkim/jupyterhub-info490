@@ -15,6 +15,8 @@ class RemoteUserLoginHandler(BaseHandler):
         if remote_user == "":
             raise web.HTTPError(401)
         else:
+            if "@" in remote_user:
+                remote_user = remote_user.split("@")[0]
             user = self.user_from_username(remote_user)
             self.set_login_cookie(user)
             self.redirect(url_path_join(self.hub.server.base_url, 'home'))
