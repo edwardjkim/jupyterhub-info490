@@ -74,5 +74,13 @@
 - name: copy systemd configuration file
   copy: src=docker-host.conf dest=/etc/systemd/system/docker.service.d/docker-host.conf
 
+- name: stop docker daemon
+  service: name=docker state=stopped
+
+# cloning VMs will result in duplicate keys
+# restarting docker service will regenerate the keys
+- name: remove /etc/docker/key.json
+  file: path=/etc/docker/key.json state=absent
+
 - name: start docker daemon
   service: name=docker state=started

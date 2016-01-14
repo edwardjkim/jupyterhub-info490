@@ -8,5 +8,8 @@
 - name: copy singleuser.sh to the singleuser directory
   copy: src=singleuser.sh dest=/srv/singleuser/singleuser.sh
 
+- name: pull lcdm/info490 image
+  shell: docker pull lcdm/info490:latest
+
 - name: build singleuser image
   shell: docker build -t singleuser /srv/singleuser
