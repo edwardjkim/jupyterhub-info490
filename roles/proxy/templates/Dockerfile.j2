@@ -22,9 +22,12 @@ RUN cd /etc/httpd/conf && \
 
 COPY httpd-vhosts.conf /etc/httpd/conf/extra/httpd-vhosts.conf
 COPY shib.conf /etc/httpd/conf.d/shib.conf
+COPY 00-mpm.conf /etc/httpd/conf.modules.d/00-mpm.conf
 COPY httpd-foreground /usr/local/bin/
+
 COPY shibboleth2.xml /etc/shibboleth/shibboleth2.xml
 COPY attribute-map.xml /etc/shibboleth/attribute-map.xml
+
 COPY itrust.pem /etc/shibboleth/itrust.pem
 COPY sp-cert.pem /etc/shibboleth/sp-cert.pem
 COPY sp-key.pem /etc/shibboleth/sp-key.pem

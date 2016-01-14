@@ -32,6 +32,9 @@
 - name: apache configuration
   template: src=httpd-vhosts.conf.j2 dest=/srv/httpd/httpd-vhosts.conf mode=0644
 
+- name: copy 00-mpm.conf
+  copy: src=00-mpm.conf dest=/srv/httpd/00-mpm.conf mode=0644
+
 - name: copy the Dockerfile to the apache configuration directory
   template: src=Dockerfile.j2 dest=/srv/httpd/Dockerfile mode=0644
 
