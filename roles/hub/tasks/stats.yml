@@ -1,0 +1,9 @@
+---
+- name: create the /srv/stats directory
+  file: path=/srv/stats state=directory
+
+- name: copy the stats dockerfile
+  copy: src=Dockerfile.stats dest=/srv/stats/Dockerfile
+
+- name: create the /srv/stats_db directory
+  file: path=/srv/stats_db state=directory

@@ -36,6 +36,9 @@
 - name: remove docker containers
   shell: docker rm -v $(docker ps -a -q) || true
 
+- name: run docker cleanup cronjob
+  cron: name="docker cleanup" minute=15 user="root" job="/usr/bin/docker rmi $(/usr/bin/docker images -q --filter 'dangling=true')"
+
 # Build our own bridge for docker
 - name: install docker TLS credentials
   template: src=ifcfg-br0.j2 dest=/etc/sysconfig/network-scripts/ifcfg-br0
