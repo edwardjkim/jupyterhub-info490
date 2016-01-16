@@ -23,8 +23,3 @@
 - name: create the userlist
   template: src=userlist.j2 dest=/srv/jupyterhub_users/userlist
 
-- name: create home directories
-  file: path=/export/home/{{ item }} state=directory group=1000 owner=1000 recurse=yes
-  with_items:
-  - "{{ jupyterhub_admins }}"
-  - "{{ jupyterhub_users }}"

@@ -9,7 +9,7 @@
   service: name=rpcbind state=stopped
 
 - name: unmount existing volumes
-  shell: umount /export || true
+  shell: umount /mnt/volume || true
 
 - name: create a ext4 filesystem on /dev/sdb
   filesystem: fstype=ext4 dev=/dev/sdb
@@ -20,14 +20,20 @@
 - name: mount storage volume
   mount: name=/mnt/volume src=/dev/sdb fstype=ext4 state=mounted
 
-- name: bind mount to export directory
-  mount: name=/export src=/mnt/volume fstype=none opts=bind state=mounted
-
-- name: install /etc/exports
-  template: src=exports dest=/etc/exports mode=0644
+#- name: bind mount to export directory
+#  mount: name=/export src=/mnt/volume fstype=none opts=bind state=mounted
+#
+#- name: install /etc/exports
+#  template: src=exports dest=/etc/exports mode=0644
 
 - name: start rpcbind
   service: name=rpcbind state=started
 
 - name: start nfs-server
   service: name=nfs state=started
+
+- name: create home directories
+  file: path=/mnt/volume/home/{{ item }} state=directory group=1000 owner=1000 recurse=yes
+  with_items:
+  - "{{ jupyterhub_admins }}"
+  - "{{ jupyterhub_users }}"

@@ -1,4 +1,7 @@
 ---
+- name: remove previous data directory for consul
+  file: path=/srv/consul state=absent
+
 - name: create a data directory for consul
   file: path=/srv/consul state=directory
 
