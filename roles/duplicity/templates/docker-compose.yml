@@ -1,0 +1,9 @@
+duplicity:
+  build: /srv/duplicity
+  restart: always
+  volumes:
+    - {{ backup_source_directory }}:/backup
+    - /root/.cache/duplicity:/root/.cache/duplicity
+    - /root/.ssh:/root/.ssh
+    - /root/.gnupg:/root/.gnupg
+  command: cron && tail -f /var/log/cron.log

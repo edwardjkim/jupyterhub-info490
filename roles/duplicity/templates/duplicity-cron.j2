@@ -1,0 +1,2 @@
+0 8 * * * root PASSPHRASE="{{ gpg_pass }}" /usr/local/bin/duplicity --encrypt-key {{ gpg_key }} --full-if-older-than 7D /backup sftp://root@{{ backup_target_ip }}/{{ backup_target_directory }} >> /var/log/cron.log 2>&1
+

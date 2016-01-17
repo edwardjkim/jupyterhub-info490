@@ -170,6 +170,36 @@ $ ansible-vault encrypt host_vars/jupyterhub_node1
 $ ansible-vault encrypt host_vars/jupyterhub_node2
 ```
 
+## Set up Duplicity for backup
+
+Generate a key pair in the `nfs_server` machine:
+
+```shell
+$ ssh-keygen -t rsa
+```
+
+Press Enter at the prompts to create a password-less SSH key with the default settings.
+
+Transfer it to the system that will host your backups:
+
+```shell
+$ ssh-copy-id root@backupHost
+```
+
+Test that you can now log in without a password from your `nfs_server` by issuing:
+
+```shell
+$ ssh -oHostKeyAlgorithms='ssh-rsa' root@backupHost
+```
+
+We can use GPG for extra security and encryption. The commands will store our keys in a hidden directory at /root/.gnupg/:
+
+```shell
+$ gpg --gen-key
+```
+
+Use the key to define the `gpg_key` and `gpg_pass` variables in `vars.yml`.
+
 ## Deploy
 
 ```shell

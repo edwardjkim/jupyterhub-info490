@@ -1,0 +1,42 @@
+---
+- fail: msg="backup_source_directory is not defined"
+  when: backup_source_directory == ''
+
+- fail: msg="backup_target_ip is not defined"
+  when: backup_target_ip == ''
+
+- fail: msg="backup_target_directory is not defined"
+  when: backup_target_directory == ''
+
+- fail: msg="gpg_key is not defined"
+  when: gpg_key == ''
+
+- fail: msg="gpg_pass is not defined"
+  when: gpg_pass == ''
+
+- name: create directory for duplicity
+  file: path=/srv/duplicity state=directory
+
+- name: copy dockerfile
+  copy: src=Dockerfile dest=/srv/duplicity/Dockerfile
+
+- name: copy crontab
+  template: src=duplicity-cron.j2 dest=/srv/duplicity/duplicity-cron
+
+- name: install docker-compose.yml
+  template: src=docker-compose.yml dest=/root/docker-compose.yml
+
+- name: stop docker containers
+  command: docker-compose stop
+
+- name: remove docker containers
+  command: docker-compose rm -f
+
+- name: pull docker images
+  command: docker-compose pull
+
+- name: build docker images
+  command: docker-compose build
+
+- name: start services
+  command: docker-compose up -d

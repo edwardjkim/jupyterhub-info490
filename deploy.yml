@@ -11,6 +11,7 @@
   - proxy
   - jupyterhub_host
   - jupyterhub_nodes
+  - nfs_server
   vars_files:
   - vars.yml
   roles:
@@ -29,6 +30,7 @@
   - users.yml
   roles:
   - nfs_server
+  - duplicity
 
 - hosts:
   - jupyterhub_nodes
