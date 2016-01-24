@@ -1,7 +1,7 @@
-# JupyterHub deployment for INFO 490
+# JupyterHub deployment for CS 101
 
-This repository contains an Ansible playbook for launching JupyterHub for the
-Intro to Data Science class at the University of Illinois.
+This repository contains an Ansible playbook for launching JupyterHub for CS101
+ at the University of Illinois.
 
 The setup is inspired by [the compmodels class](https://github.com/compmodels/jupyterhub-deploy)
 but there are some major differences:
@@ -38,6 +38,12 @@ running on the hub server.
     with the filesystem mounted at /home.
 
 ## Installation
+
+### Clone this repository
+
+```shell
+$ git clone -b cs101 https://github.com/edwardjkim/jupyterhub-info490 jupyterhub-cs101
+```
 
 ### Install Docker
 
