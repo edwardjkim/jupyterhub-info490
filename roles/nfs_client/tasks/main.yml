@@ -6,4 +6,4 @@
   shell: umount /home || true
 
 - name: mount home
-  mount: name=/home src={{ hostvars['nfs_server']['private_ip'] }}:/home fstype=nfs opts={{ nfsoptions }} state=mounted
+  mount: name=/home src={{ hostvars['jupyterhub_host']['private_ip'] }}:/export/home fstype=nfs opts={{ nfsoptions }} state=mounted

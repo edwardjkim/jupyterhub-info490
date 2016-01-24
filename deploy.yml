@@ -3,7 +3,6 @@
   - proxy
   - jupyterhub_host
   - jupyterhub_nodes
-  - nfs_server
   roles:
   - common
 
@@ -11,7 +10,6 @@
   - proxy
   - jupyterhub_host
   - jupyterhub_nodes
-  - nfs_server
   vars_files:
   - vars.yml
   roles:
@@ -25,12 +23,12 @@
   - proxy
 
 - hosts:
-  - nfs_server
+  - jupyterhub_host
   vars_files:
   - users.yml
   roles:
   - nfs_server
-  - duplicity
+#  - duplicity
 
 - hosts:
   - jupyterhub_nodes
@@ -58,4 +56,6 @@
   - users.yml
   - vars.yml
   roles:
+  - hub
+  tags:
   - hub

@@ -32,13 +32,8 @@ c.DockerSpawner.tls_cert = os.environ['DOCKER_TLS_CERT']
 c.DockerSpawner.tls_key = os.environ['DOCKER_TLS_KEY']
 c.DockerSpawner.remove_containers = True
 c.DockerSpawner.volumes = {
-    '/home/{username}': '/home/data_scientist'
+    '/home/{username}': '/home/jupyter'
 }
-c.DockerSpawner.read_only_volumes = {
-    '/srv/shared/data': '/home/data_scientist/data',
-    '/srv/shared/info490-sp16': '/home/data_scientist/info490-sp16_RO'
-}
-c.SwarmSpawner.singleuser = "data_scientist"
 
 with open('/srv/jupyterhub_users/userlist') as f:
     for line in f:
