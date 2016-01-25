@@ -39,6 +39,13 @@ running on the hub server.
 
 ## Installation
 
+### Clone Git repository
+
+```shell
+$ git clone https://github.com/edwardjkim/jupyterhub-info490
+$ cd jupyterhub-info490
+```
+
 ### Install Docker
 
 ```shell
@@ -143,12 +150,14 @@ $ chmod 600 certificates/password
 $ cat /dev/random | head -c 128 | base64 > certificates/password
 
 $ KEYMASTER="sudo docker run --rm -v $(pwd)/certificates/:/certificates/ cloudpipe/keymaster"
+
+$ ${KEYMASTER} ca
 ```
 
 Then, to generate a keypair for a server:
 
 ```shell
-${KEYMASTER} signed-keypair -n server1 -h server1.website.com -p both -s IP:192.168.0.1
+$ ${KEYMASTER} signed-keypair -n server1 -h server1.website.com -p both -s IP:192.168.0.1
 ```
 
 You'll need to generate keypairs for the hub server and for each of the node servers.
