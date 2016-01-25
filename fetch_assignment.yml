@@ -1,0 +1,60 @@
+---
+- hosts: 127.0.0.1
+  connection: local
+  vars_files:
+  - users.yml
+  vars:
+  - fetch_dir: ../assignments
+  tasks:
+  - name: create assignments directory
+    file:
+      path: "{{ fetch_dir }}"
+      state: directory
+
+  - name: create submitted directory
+    file:
+      path: "{{ fetch_dir }}/submitted"
+      state: directory
+
+  - name: create directories for each user
+    file:
+      path: "{{ fetch_dir }}/submitted/{{ item }}"
+      state: directory
+    with_items:
+#    - "{{ jupyterhub_users }}"
+    - "{{ jupyterhub_testers }}"
+
+  - name: remove existing files
+    file:
+      path: "{{ fetch_dir }}/submitted/{{ item[0] }}/{{ item[1] }}"
+      state: absent
+    with_nested:
+#    - "{{ jupyterhub_users }}"
+    - "{{ jupyterhub_testers }}"
+    - ['w2p1', 'w2p2', 'w2p3'] ### change this
+
+  - name: create directories for each prolem
+    file:
+      path: "{{ fetch_dir }}/submitted/{{ item[0] }}/{{ item[1] }}"
+      state: directory
+    with_nested:
+#    - "{{ jupyterhub_users }}"
+    - "{{ jupyterhub_testers }}"
+    - ['w2p1', 'w2p2', 'w2p3'] ### change this
+
+- hosts: nfs_server
+  vars_files:
+  - users.yml
+  vars:
+  - fetch_week: 2 ### change this
+  - fetch_dir: ../assignments
+  tasks:
+  - name: fetch assignments
+    fetch:
+      src: "/mnt/volume/home/{{ item[0] }}/assignments/Week{{ fetch_week }}/{{ item[1] }}.ipynb"
+      dest: "{{ fetch_dir }}/submitted/{{ item[0] }}/{{ item[1] }}/{{ item[1] }}.ipynb"
+      flat: yes
+    with_nested:
+#    - "{{ jupyterhub_users }}"
+    - "{{ jupyterhub_testers }}"
+    - ['w2p1', 'w2p2', 'w2p3'] ### change this

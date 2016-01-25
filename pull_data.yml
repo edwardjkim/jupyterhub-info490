@@ -1,0 +1,24 @@
+---
+- hosts:
+  - jupyterhub_nodes
+  tasks:
+  - name: create data directory
+    file: path=/srv/shared/data state=directory
+
+  - name: download airline dataset
+    get_url: url=http://stat-computing.org/dataexpo/2009/{{ item }} dest=/srv/shared/data/{{ item }}
+    with_items:
+    - "2001.csv.bz2"
+    - "airports.csv"
+    - "carriers.csv"
+    - "plane-data.csv"
+
+  - name: uncompress csv files
+    shell: bzip2 -d -k -f /srv/shared/data/{{ item }}
+    with_items:
+    - "2001.csv.bz2"
+
+  - name: update course git repo
+    git: repo=https://github.com/UI-DataScience/info490-sp16 dest=/srv/shared/info490-sp16
+    tags:
+    - git_pull
