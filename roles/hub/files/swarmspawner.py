@@ -17,7 +17,7 @@ class SwarmSpawner(DockerSpawner):
 
     container_ip = '0.0.0.0'
 
-    singleuser = Unicode('jupyter', config=True)
+    singleuser = Unicode('jovyan', config=True)
 
     @gen.coroutine
     def lookup_node_name(self):
@@ -53,6 +53,9 @@ class SwarmSpawner(DockerSpawner):
         if 'working_dir' not in extra_create_kwargs:
             extra_create_kwargs['working_dir'] = "/home/{}".format(self.singleuser)
 
+        if self.user_options['env'] == 'CS101':
+            image = 'singleuser'
+
         # start the container
         yield DockerSpawner.start(
             self, image=image,
@@ -66,3 +69,28 @@ class SwarmSpawner(DockerSpawner):
             self.container_name, name, self.user.server.ip, self.user.server.port))
 
         self.log.info(self.env)
+
+
+class SwarmFormSpawner(SwarmSpawner):
+    def _options_form_default(self):
+        return """
+        <label for="env">Select list (select one):</label>
+        <select class="form-control" name="env" style="width: 200px;">
+            <option>CS101</option>
+        </select>
+        """
+
+    def options_from_form(self, formdata):
+        options = {}
+        options['env'] = env = {}
+        
+        env_lines = formdata.get('env', [''])
+        options['env'] = formdata['env'][0] 
+
+        return options
+    
+    def get_env(self):
+        env = super().get_env()
+        if self.user_options.get('env'):
+            env.update(self.user_options['env'])
+        return env

@@ -26,13 +26,13 @@ c.JupyterHub.proxy_api_ip = '0.0.0.0'
 c.JupyterHub.hub_ip = '0.0.0.0'
 c.DockerSpawner.hub_ip_connect = os.environ['HUB_IP']
 
-c.JupyterHub.spawner_class = 'swarmspawner.SwarmSpawner'
-c.DockerSpawner.container_image = 'singleuser'
+c.JupyterHub.spawner_class = 'swarmspawner.SwarmFormSpawner'
+#c.DockerSpawner.container_image = 'singleuser'
 c.DockerSpawner.tls_cert = os.environ['DOCKER_TLS_CERT']
 c.DockerSpawner.tls_key = os.environ['DOCKER_TLS_KEY']
 c.DockerSpawner.remove_containers = True
 c.DockerSpawner.volumes = {
-    '/home/{username}': '/home/jupyter'
+    '/home/{username}': '/home/jovyan'
 }
 
 with open('/srv/jupyterhub_users/userlist') as f:

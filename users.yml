@@ -4,6 +4,6 @@
 jupyterhub_admins:
 - davis68
 - jkim575
-- mussulma
 
 jupyterhub_users:
+- mussulma
