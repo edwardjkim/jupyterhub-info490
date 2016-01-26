@@ -3,7 +3,7 @@
   when: jupyterhub_admin_user == ''
 
 - include: jupyterhub.yml
-- include: cull.yml
+#- include: cull.yml
 - include: stats.yml
 
 - name: install docker compose
