@@ -19,6 +19,6 @@
     - "2001.csv.bz2"
 
   - name: update course git repo
-    git: repo=https://github.com/UI-DataScience/info490-sp16 dest=/srv/shared/info490-sp16
+    git: repo=https://github.com/UI-DataScience/info490-sp16 dest=/srv/shared/info490-sp16 update=yes
     tags:
     - git_pull
