@@ -49,16 +49,12 @@ $ cd jupyterhub-info490
 ### Install Docker
 
 ```shell
-$ sudo yum update
-$ sudo tee /etc/yum.repos.d/docker.repo <<-'EOF'
-[dockerrepo]
-name=Docker Repository
-baseurl=https://yum.dockerproject.org/repo/main/centos/$releasever/
-enabled=1
-gpgcheck=1
-gpgkey=https://yum.dockerproject.org/gpg
-EOF
-$ sudo yum install docker-engine
+$ sudo apt-get update
+$ sudo apt-get install apt-transport-https ca-certificates
+$ sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+$ sudo sh -c 'echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" > /etc/apt/sources.list.d/docker.list'
+$ sudo apt-get update
+$ sudo apt-get install docker-engine
 $ sudo service docker start
 ```
 
@@ -67,21 +63,22 @@ $ sudo service docker start
 On Scientific Linux,
 
 ```shell
-$ sudo yum install python python-devel python-pip
+$ sudo apt-get install python python-dev python-pip
 $ sudo pip install paramiko PyYAML Jinja2 httplib2 six
 ```
 
 ### Install Ansible
 
 ```shell
+$ cd $HOME
 $ git clone git://github.com/ansible/ansible.git --recursive
 $ cd ./ansible
 $ source ./hacking/env-setup
 ```
 
 If you log out of a session, you have to do `source ./hacking/env-setup` again
-when you log back in, so you might want to add `source ./hacking/env-setup` to
-`.bashrc`.
+when you log back in, so you might want to add e.g.,
+`cd ~/ansible && source ./hacking/env-setup -q && cd ~` to `.bashrc`.
 
 ### Configuration variables
 
