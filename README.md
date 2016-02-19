@@ -82,6 +82,16 @@ when you log back in, so you might want to add e.g.,
 
 ### Configuration variables
 
+This configuration script by default assumes you are using SSH password authentication,
+so you need to set the password for the user, and set the following parameters in
+`/etc/ssh/sshd_config`
+
+```
+ChallengeResponseAuthentication yes
+PasswordAuthentication yes
+PermitRootLogin yes
+```
+
 Use the example YAML files to change your server configurations.
 
 ```shell
