@@ -126,23 +126,6 @@ $ vim host_vars/proxy_server
 You can also generate and use self-signed certificates, but self-signed certificates
 may not work with some web browswers (e.g. Safari).
 
-### SSL certificates for Shibboleth
-
-Generate a key and certificate to be used by the Shibboleth service provider (SP).
-Note that this is different from the web server certificate.
-
-In the below commands, we will use the `keygen.sh` script provided by Shibboleth.
-`your.host.name` is the hostname you chose for your `entityID`.
-These commands will create a key and cert pair, `sp-key.pem` and `sp-cert.pem`.
-
-See [Setting up Shibboleth for U of I](https://answers.uillinois.edu/illinois/48459).
-
-```shell
-$ ./script/keygen.sh -o certificates -h your.host.name -e https://your.host.name/shibboleth -y 10
-```
-
-Use SP's certificate `sp-cert.pem` to register with [iTrust](https://itrust.illinois.edu/federationregistry/).
-
 ### TLS certificates for Docker
 
 You'll need to generate SSL/TLS certificates for the hub server and node servers.
@@ -155,7 +138,11 @@ $ mkdir certificates
 $ touch certificates/password
 $ chmod 600 certificates/password
 $ cat /dev/random | head -c 128 | base64 > certificates/password
+```
 
+(Use `/dev/urandom` if `/dev/random` takes too long.)
+
+```shell
 $ KEYMASTER="sudo docker run --rm -v $(pwd)/certificates/:/certificates/ cloudpipe/keymaster"
 
 $ ${KEYMASTER} ca
@@ -168,11 +155,10 @@ $ ${KEYMASTER} signed-keypair -n server1 -h server1.website.com -p both -s IP:19
 ```
 
 You'll need to generate keypairs for the hub server and for each of the node servers.
-Don't forget to edit the `host_vars` files.
+After generating the keypairs, edit `script/assemble_certs` and execute
 
 ```shell
-$ cp host_vars/example host_vars/jupyterhub_host
-$ vim host_vars/jupyterhub_host
+$ ./script/assemble_certs
 ```
 ## Encrypt with ansible-vault
 
