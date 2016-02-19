@@ -3,13 +3,7 @@
   apt: name=vim update_cache=yes state=latest
 
 - name: install python
-  apt: name=python state=latest
+  apt: name=python update_cache=yes state=latest
 
 - name: install pip
-  apt: name=python-pip state=latest
-
-- name: upgrade pip
-  apt: name=pip state=latest
-
-- name: upgrade all packages
-  apt: name=* state=latest
+  apt: name=python-pip update_cache=yes state=latest
