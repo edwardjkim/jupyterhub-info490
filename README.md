@@ -91,6 +91,7 @@ PermitRootLogin yes
 Use the example YAML files to change your server configurations.
 
 ```shell
+$ cd $HOME
 $ cp inventory.example inventory
 $ vim inventory
 ```
