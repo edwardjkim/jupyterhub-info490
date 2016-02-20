@@ -6,6 +6,8 @@
   - nfs_server
   roles:
   - common
+  tags:
+  - common
 
 - hosts:
   - proxy
@@ -16,15 +18,8 @@
   - vars.yml
   roles:
   - docker
-
-- hosts:
-  - proxy
-  vars_files:
-  - vars.yml
-  roles:
-  - proxy
   tags:
-  - proxy
+  - docker
 
 - hosts:
   - nfs_server
@@ -53,7 +48,15 @@
   - vars.yml
   roles:
   - consul_client
+
+- hosts:
+  - jupyterhub_nodes
+  vars_files:
+  - vars.yml
+  roles:
   - singleuser
+  tags:
+  - signleuser
 
 - hosts: 
   - jupyterhub_host
@@ -62,3 +65,13 @@
   - vars.yml
   roles:
   - hub
+
+- hosts:
+  - proxy
+  vars_files:
+  - vars.yml
+  roles:
+  - proxy
+  tags:
+  - proxy
+

@@ -11,5 +11,5 @@
 - name: upgrade pip
   pip: name=pip state=latest
 
-- name: upgrade all packages
-  yum: name=* state=latest
+- name: remove yum-cron
+  yum: name=yum-cron state=absent

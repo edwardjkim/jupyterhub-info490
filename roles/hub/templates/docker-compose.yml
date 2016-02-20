@@ -1,5 +1,5 @@
 swarm:
-  image: swarm
+  image: swarm:1.0.1
   restart: always
   command: >
     manage 
