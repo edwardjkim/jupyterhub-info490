@@ -14,5 +14,5 @@ site_key: ''
 site_cert_path: ''
 site_key_path: ''
 
-shib_cert: ''
-shib_key: ''
+#shib_cert: ''
+#shib_key: ''
