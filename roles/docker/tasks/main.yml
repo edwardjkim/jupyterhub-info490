@@ -60,8 +60,8 @@
 - name: set DOCKER_TLS_VERIFY
   lineinfile: dest=/etc/environment state=present line="DOCKER_TLS_VERIFY=1"
 
-- name: install docker configuration
-  template: src=docker_config dest=/etc/default/docker mode=0644
+- name: copy systemd configuration file
+  template: src=docker.j2 dest=/etc/default/docker
 
 - name: stop docker daemon
   service: name=docker state=stopped

@@ -4,10 +4,10 @@ MAINTAINER Edward J Kim <edward.junhyung.kim@gmail.com>
 
 RUN yum -y update && \
     yum -y install vim wget && \
-    wget -P /etc/yum.repos.d \
-        http://download.opensuse.org/repositories/security://shibboleth/CentOS_7/security:shibboleth.repo && \
-    yum -y install httpd shibboleth.x86_64 libcurl-openssl libcurl-openssl-devel && \
-    chmod +x /etc/shibboleth/shibd-redhat && \
+#    wget -P /etc/yum.repos.d \
+#        http://download.opensuse.org/repositories/security://shibboleth/CentOS_7/security:shibboleth.repo && \
+#    yum -y install httpd shibboleth.x86_64 libcurl-openssl libcurl-openssl-devel && \
+#    chmod +x /etc/shibboleth/shibd-redhat && \
     yum -y install mod_ssl
 
 RUN cd /etc/httpd/conf && \
@@ -21,16 +21,16 @@ RUN cd /etc/httpd/conf && \
     mkdir /var/lock/subsys
 
 COPY httpd-vhosts.conf /etc/httpd/conf/extra/httpd-vhosts.conf
-COPY shib.conf /etc/httpd/conf.d/shib.conf
+#COPY shib.conf /etc/httpd/conf.d/shib.conf
 COPY 00-mpm.conf /etc/httpd/conf.modules.d/00-mpm.conf
 COPY httpd-foreground /usr/local/bin/
 
-COPY shibboleth2.xml /etc/shibboleth/shibboleth2.xml
-COPY attribute-map.xml /etc/shibboleth/attribute-map.xml
+#COPY shibboleth2.xml /etc/shibboleth/shibboleth2.xml
+#COPY attribute-map.xml /etc/shibboleth/attribute-map.xml
 
-COPY itrust.pem /etc/shibboleth/itrust.pem
-COPY sp-cert.pem /etc/shibboleth/sp-cert.pem
-COPY sp-key.pem /etc/shibboleth/sp-key.pem
+#COPY itrust.pem /etc/shibboleth/itrust.pem
+#COPY sp-cert.pem /etc/shibboleth/sp-cert.pem
+#COPY sp-key.pem /etc/shibboleth/sp-key.pem
 
 EXPOSE 80 443
 

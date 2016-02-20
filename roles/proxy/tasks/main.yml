@@ -5,11 +5,11 @@
 - fail: msg="site_key is undefined"
   when: site_key == ''
 
-- fail: msg="shib_cert is undefined"
-  when: shib_cert == ''
-
-- fail: msg="shib_key is undefined"
-  when: shib_key == ''
+#- fail: msg="shib_cert is undefined"
+#  when: shib_cert == ''
+#
+#- fail: msg="shib_key is undefined"
+#  when: shib_key == ''
 
 - name: configuration directories
   file: state=directory dest=/srv/httpd mode=0755
@@ -38,29 +38,30 @@
 - name: copy the Dockerfile to the apache configuration directory
   template: src=Dockerfile.j2 dest=/srv/httpd/Dockerfile mode=0644
 
-- name: a shibboleth configuration file
-  template: src=shibboleth2.xml.j2 dest=/srv/httpd/shibboleth2.xml mode=0644
-
-- name: another shib configuratoin file
-  copy: src=shib.conf dest=/srv/httpd/shib.conf
-
-- name: yet another shib configuratoin file
-  copy: src=attribute-map.xml dest=/srv/httpd/attribute-map.xml
-
-- name: copy the itrust certificate
-  copy: src=itrust.pem dest=/srv/httpd/itrust.pem
-
-- name: Shibboleth SSL certificate
-  template: src=shib.crt.j2 dest=/srv/httpd/sp-cert.pem mode=0644
-
-- name: Shibboleth SSL key
-  template: src=shib.key.j2 dest=/srv/httpd/sp-key.pem mode=0600 group=root owner=root
+#- name: a shibboleth configuration file
+#  template: src=shibboleth2.xml.j2 dest=/srv/httpd/shibboleth2.xml mode=0644
+#
+#- name: another shib configuratoin file
+#  copy: src=shib.conf dest=/srv/httpd/shib.conf
+#
+#- name: yet another shib configuratoin file
+#  copy: src=attribute-map.xml dest=/srv/httpd/attribute-map.xml
+#
+#- name: copy the itrust certificate
+#  copy: src=itrust.pem dest=/srv/httpd/itrust.pem
+#
+#- name: Shibboleth SSL certificate
+#  template: src=shib.crt.j2 dest=/srv/httpd/sp-cert.pem mode=0644
+#
+#- name: Shibboleth SSL key
+#  template: src=shib.key.j2 dest=/srv/httpd/sp-key.pem mode=0600 group=root owner=root
 
 - name: install docker-compose.yml
   template: src=docker-compose.yml dest=/root/docker-compose.yml
 
 - name: stop docker containers
   command: docker-compose stop
+  become_user: root
 
 - name: remove docker containers
   command: docker-compose rm -f
