@@ -1,12 +1,18 @@
 [proxy]
-proxy_server ansible_user=root ansible_host=<public ip> private_ip=<private_ip> jupyterhub_host=<jupyterhub_ip>
+proxy_server ansible_user=root ansible_host=<public ip> private_ip=<private_ip>
 
 [nfs_server]
-nfs_server ansible_user=root ansible_host=<public ip> private_ip=<private_ip>
+nfs_server ansible_user=root ansible_host=<public_ip> private_ip=<private_ip>
 
 [jupyterhub_host]
 jupyterhub_host ansible_user=root ansible_host=<public_ip> private_ip=<private_ip>
 
 [jupyterhub_nodes]
-jupyterhub_node2 ansible_user=root ansible_host=<public_ip> private_ip=<private_ip> jupyterhub_host=<jupyterhub_ip>
-jupyterhub_node3 ansible_user=root ansible_host=<public_ip> private_ip=<private_ip> jupyterhub_host=<jupyterhub_ip>
+jupyterhub_node1 ansible_user=root ansible_host=<public_ip> private_ip=<private_ip>
+
+[requires_host_ip:children]
+proxy
+jupyterhub_nodes
+
+[requires_host_ip:vars]
+jupyterhub_host=<jupyterhub_ip>

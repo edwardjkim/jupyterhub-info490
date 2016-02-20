@@ -5,7 +5,7 @@ docker_server_port: 2376
 # In our case, Docker's default IP address conflicts with the IP addressing
 # plan of one of campus Wifi servieces.
 # So we create a bridge interface with a different IP.
-docker_bridge_ip: ""
+docker_bridge_ip: "172.17.0.1"
 
 #This is the auth token for JupyterHub. You can create it with:
 #     openssl rand -hex 16
@@ -23,5 +23,5 @@ cookie_secret: ""
 # to get an API key from JupyterHub
 jupyterhub_admin_user: ""
 
-# Support email address for Shibboleth servies
-support_contact: ""
+# If a storage volume is used, specify where it's mounted.
+mount_volume_target: /mnt/volume
