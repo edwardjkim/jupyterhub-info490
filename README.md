@@ -71,7 +71,7 @@ $ sudo pip install paramiko PyYAML Jinja2 httplib2 six
 
 ```shell
 $ cd $HOME
-$ git clone git://github.com/ansible/ansible.git --recursive
+$ git clone -b stable-2.0.0.1 git://github.com/ansible/ansible.git --recursive
 $ cd ./ansible
 $ source ./hacking/env-setup
 ```
