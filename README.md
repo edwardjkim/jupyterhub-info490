@@ -58,8 +58,6 @@ $ sudo service docker start
 
 ### Install Python modules
 
-On Scientific Linux,
-
 ```shell
 $ sudo apt-get install python python-dev python-pip
 $ sudo pip install paramiko PyYAML Jinja2 httplib2 six
