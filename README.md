@@ -91,7 +91,7 @@ PermitRootLogin yes
 Use the example YAML files to change your server configurations.
 
 ```shell
-$ cd $HOME
+$ cd $HOME/jupyterhub-info490
 $ cp inventory.example inventory
 $ vim inventory
 ```
