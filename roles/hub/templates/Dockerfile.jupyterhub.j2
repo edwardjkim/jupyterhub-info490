@@ -3,15 +3,15 @@ FROM jupyter/jupyterhub:latest
 MAINTAINER Edward J Kim <edward.junhyung.kim@gmail.com>
 
 RUN apt-get update && \
-    pip3 install --upgrade pip && \
-    pip3 install docker-py && \
-    pip3 install git+git://github.com/jupyter/dockerspawner.git && \
-    pip3 install git+git://github.com/jupyter/oauthenticator.git
+    pip install --upgrade pip && \
+    pip install docker-py && \
+    pip install git+git://github.com/jupyter/dockerspawner.git && \
+    pip install git+git://github.com/jupyter/oauthenticator.git
 
 RUN mkdir /srv/jupyterhub_config
 WORKDIR /srv/jupyterhub_config
 
-ADD remote_user_auth.py /srv/jupyterhub_config/remote_user_auth.py
+#ADD remote_user_auth.py /srv/jupyterhub_config/remote_user_auth.py
 ADD swarmspawner.py /srv/jupyterhub_config/swarmspawner.py
 ADD jupyterhub_config.py /srv/jupyterhub_config/jupyterhub_config.py
 

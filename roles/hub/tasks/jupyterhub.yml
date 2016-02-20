@@ -11,8 +11,8 @@
 - name: create the jupyterhub configuration file
   template: src=jupyterhub_config.py.j2 dest=/srv/jupyterhub/jupyterhub_config.py
 
-- name: create the remote user authenticator script
-  copy: src=remote_user_auth.py dest=/srv/jupyterhub/remote_user_auth.py
+#- name: create the remote user authenticator script
+#  copy: src=remote_user_auth.py dest=/srv/jupyterhub/remote_user_auth.py
 
 - name: copy swarm spawner script
   copy: src=swarmspawner.py dest=/srv/jupyterhub/swarmspawner.py
