@@ -1,7 +1,8 @@
 # JupyterHub deployment for INFO 490
 
 This repository contains an Ansible playbook for launching JupyterHub for the
-Intro to Data Science class at the University of Illinois.
+[Advaned Data Science](https://github.com/UI-DataScience/info490-sp16)
+class at the University of Illinois.
 
 The setup is inspired by [the compmodels class](https://github.com/compmodels/jupyterhub-deploy)
 but there are some major differences:
@@ -14,7 +15,8 @@ but there are some major differences:
     we change the ownership of the files on the host system to the `jupyter` user and mount
     the appropriate directory onto the
     [singleuser Docker image](https://github.com/jupyter/dockerspawner/tree/master/singleuser).
-
+4.  Tested on Scientific Linux. Should in principle work on any Fedora-based flavors such as CentOS.
+    For Ubuntu, check out the `ubuntu` branch.
 
 ## Overview
 
@@ -38,6 +40,10 @@ running on the hub server.
     with the filesystem mounted at /home.
 
 ## Installation
+
+Any management system benefits from being run near the machines being managed.
+If you are running Ansible in a cloud, consider running it from a machine inside that cloud.
+In most cases this will work better than on the open Internet.
 
 ### Clone Git repository
 
