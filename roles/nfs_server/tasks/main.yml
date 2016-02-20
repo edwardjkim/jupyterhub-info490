@@ -1,42 +1,42 @@
 ---
 - name: install nfs pakcages
-  yum: name=nfs-utils,nfs-utils-lib state=latest
+  apt: name=nfs-kernel-server,nfs-common,rpcbind state=latest
 
 - name: stop nfs
-  service: name=nfs state=stopped
+  service: name=nfs-kernel-server state=stopped
 
 - name: stop rpcbind
   service: name=rpcbind state=stopped
 
-- name: unmount existing volumes
-  shell: umount /mnt/volume || true
-
-- name: create a ext4 filesystem on /dev/sdb
-  filesystem: fstype=ext4 dev=/dev/sdb
-
+#- name: unmount existing volumes
+#  shell: umount {{mount_volume_path}} || true
+#
+#- name: create a ext4 filesystem on /dev/sdb
+#  filesystem: fstype=ext4 dev=/dev/sdb
+#
 - name: create mount directory
-  file: name=/mnt/volume state=directory
-
-- name: mount storage volume
-  mount: name=/mnt/volume src=/dev/sdb fstype=ext4 state=mounted
+  file: name={{mount_volume_target}} state=directory
+#
+#- name: mount storage volume
+#  mount: name={{mount_volume_path}} src=/dev/sdb fstype=ext4 state=mounted
 
 #- name: bind mount to export directory
-#  mount: name=/export src=/mnt/volume fstype=none opts=bind state=mounted
-#
-#- name: install /etc/exports
-#  template: src=exports dest=/etc/exports mode=0644
+#  mount: name=/export src={{mount_volume_path}} fstype=none opts=bind state=mounted
+
+- name: install /etc/exports
+  template: src=exports dest=/etc/exports mode=0644
 
 - name: start rpcbind
   service: name=rpcbind state=started
 
 - name: start nfs-server
-  service: name=nfs state=started
-
-- name: create /mnt/volume/home
-  file: path=/mnt/volume/home state=directory
+  service: name=nfs-kernel-server state=started
 
 - name: create home directories
-  file: path=/mnt/volume/home/{{ item }} state=directory group=1000 owner=1000 recurse=yes
+  file: path={{mount_volume_target}}/home state=directory
+
+- name: create home directories
+  file: path={{mount_volume_target}}/home/{{ item }} state=directory group=1000 owner=1000 recurse=yes
   with_items:
   - "{{ jupyterhub_admins }}"
   - "{{ jupyterhub_users }}"
