@@ -12,6 +12,12 @@ c.JupyterHub.db_url = 'sqlite:////srv/jupyterhub/jupyterhub.sqlite'
 c.JupyterHub.admin_access = True
 
 #c.JupyterHub.authenticator_class = 'remote_user_auth.RemoteUserAuthenticator'
+c.JupyterHub.authenticator_class = 'oauthenticator.LocalGitHubOAuthenticator'
+c.GitHubOAuthenticator.oauth_callback_url = os.environ['OAUTH_CALLBACK_URL']
+c.GitHubOAuthenticator.client_id = os.environ['GITHUB_CLIENT_ID']
+c.GitHubOAuthenticator.client_secret = os.environ['GITHUB_CLIENT_SECRET']
+c.LocalGitHubOAuthenticator.create_system_users = True
+
 c.Authenticator.admin_users = admin = set()
 c.Authenticator.whitelist = whitelist = set()
 
@@ -30,10 +36,7 @@ c.DockerSpawner.container_image = 'singleuser'
 c.DockerSpawner.tls_cert = os.environ['DOCKER_TLS_CERT']
 c.DockerSpawner.tls_key = os.environ['DOCKER_TLS_KEY']
 c.DockerSpawner.remove_containers = True
-c.DockerSpawner.volumes = {
-    '/home/{username}': '/home/jupyter'
-}
-c.SwarmSpawner.singleuser = 'jupyter'
+c.DockerSpawner.volumes = {'/home/{username}': '/home/jovyan'}
 
 with open('/srv/jupyterhub_users/userlist') as f:
     for line in f:

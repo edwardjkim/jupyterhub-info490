@@ -37,7 +37,7 @@
       to: /root/.docker/key.pem
 
 - name: docker-py
-  pip: name=docker-py state=present version=1.1.0
+  pip: name=docker-py state=present
 
 - name: stop running docker containers
   shell: docker stop $(docker ps -a -q) || true
