@@ -24,4 +24,9 @@ cookie_secret: ""
 jupyterhub_admin_user: ""
 
 # If a storage volume is used, specify where it's mounted.
-mount_volume_target: /mnt/volume
+mount_volume_target: "/mnt/volume"
+
+# GitHub OAuth variables
+oauth_callback_url: ""
+github_client_id: ""
+github_client_secret: ""
