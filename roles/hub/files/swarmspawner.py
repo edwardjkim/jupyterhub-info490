@@ -33,12 +33,12 @@ class SwarmSpawner(DockerSpawner):
     def start(self, image=None, extra_create_kwargs=None, extra_host_config=None):
         # look up mapping of node names to ip addresses
         info = yield self.docker('info')
-        num_nodes = int(info['DriverStatus'][3][1])
-        node_info = info['DriverStatus'][4::6]
+        num_nodes = int(info['SystemStatus'][3][1])
+        node_info = info['SystemStatus'][4::8]
         self.node_info = {}
         for i in range(num_nodes):
             node, ip_port = node_info[i]
-            self.node_info[node] = ip_port.split(":")[0]
+            self.node_info[node.strip()] = ip_port.strip().split(":")[0]
         self.log.debug("Swarm nodes are: {}".format(self.node_info))
 
         # specify extra host configuration
