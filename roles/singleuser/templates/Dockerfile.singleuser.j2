@@ -10,4 +10,6 @@ ADD singleuser.sh /srv/singleuser/singleuser.sh
 CMD ["sh", "/srv/singleuser/singleuser.sh"]
 
 USER data_scientist
+
 ENV PYTHONPATH /home/data_scientist/.info490/rubric
+ENV NLTK_DATA /home/data_scientist/data/nltk_data
