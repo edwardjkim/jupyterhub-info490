@@ -1,5 +1,5 @@
 swarm:
-  image: swarm:1.0.1
+  image: swarm:1.2.3
   restart: always
   command: >
     manage 
@@ -37,7 +37,7 @@ jupyterhub:
 cull:
     build: /srv/cull
     restart: always
-    command: --timeout=86400 --cull_every=3600 --url=http://jupyterhub:8081/hub
+    command: --timeout=3600 --cull_every=1800 --url=http://jupyterhub:8081/hub
     environment:
       JPY_API_TOKEN:
     volumes:

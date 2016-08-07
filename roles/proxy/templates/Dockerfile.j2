@@ -16,9 +16,7 @@ RUN cd /etc/httpd/conf && \
     echo 'LoadModule proxy_http_module modules/mod_proxy_http.so' >> httpd.conf && \
     echo 'LoadModule ssl_module modules/mod_ssl.so' >> httpd.conf && \
     echo 'LoadModule proxy_wstunnel_module mod_proxy_wstunnel.so' >> httpd.conf && \
-    echo 'Include /etc/httpd/conf/extra/httpd-vhosts.conf' >> httpd.conf && \
-    mkdir /var/run/lock  && \
-    mkdir /var/lock/subsys
+    echo 'Include /etc/httpd/conf/extra/httpd-vhosts.conf' >> httpd.conf
 
 COPY httpd-vhosts.conf /etc/httpd/conf/extra/httpd-vhosts.conf
 COPY shib.conf /etc/httpd/conf.d/shib.conf

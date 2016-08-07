@@ -55,8 +55,8 @@
   - vars.yml
   roles:
   - singleuser
-  tags:
-  - signleuser
+  - hadoop
+  - spark
 
 - hosts: 
   - jupyterhub_host
@@ -64,6 +64,8 @@
   - users.yml
   - vars.yml
   roles:
+  - hub
+  tags:
   - hub
 
 - hosts:

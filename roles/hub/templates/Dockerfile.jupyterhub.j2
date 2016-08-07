@@ -23,5 +23,5 @@ EXPOSE 8001
 # environment variable for swarm
 ENV DOCKER_HOST https://swarm:2375
 
-ENTRYPOINT ["jupyterhub", "-f", "/srv/jupyterhub_config/jupyterhub_config.py"]
+ENTRYPOINT ["jupyterhub", "-f", "/srv/jupyterhub_config/jupyterhub_config.py", "&>", "/srv/jupyterhub/jupyterhub.log"]
 

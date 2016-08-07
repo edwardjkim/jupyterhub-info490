@@ -5,11 +5,9 @@ sys.path.insert(0, '/srv/jupyterhub_config')
 
 c = get_config()
 
-c.JupyterHub.log_level = 'INFO'
+c.JupyterHub.log_level = 'DEBUG'
 
 c.JupyterHub.db_url = 'sqlite:////srv/jupyterhub/jupyterhub.sqlite'
-
-c.JupyterHub.log_file = "/srv/jupyterhub/jupyterhub.log"
 
 c.JupyterHub.admin_access = True
 
@@ -25,6 +23,8 @@ c.JupyterHub.proxy_api_ip = '0.0.0.0'
 c.JupyterHub.hub_ip = '0.0.0.0'
 c.DockerSpawner.hub_ip_connect = os.environ['HUB_IP']
 
+c. JupyterHub.confirm_no_ssl = True
+
 c.JupyterHub.spawner_class = 'swarmspawner.SwarmSpawner'
 c.DockerSpawner.container_image = 'singleuser'
 c.DockerSpawner.tls_cert = os.environ['DOCKER_TLS_CERT']
@@ -34,10 +34,11 @@ c.DockerSpawner.volumes = {
     '/home/{username}': '/home/data_scientist'
 }
 c.DockerSpawner.read_only_volumes = {
-    '/srv/shared/data': '/home/data_scientist/data',
-    '/srv/shared/info490-sp16': '/home/data_scientist/info490-sp16_RO'
+    '/srv/shared/data': '/home/data_scientist/data'
 }
 c.SwarmSpawner.singleuser = "data_scientist"
+
+c.Spawner.http_timeout = 120
 
 with open('/srv/jupyterhub_users/userlist') as f:
     for line in f:

@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ubuntu:14.04
 
 MAINTAINER Edward J Kim <edward.junhyung.kim@gmail.com>
 
@@ -11,6 +11,8 @@ RUN apt-get update && \
         python-dev \
         python-pip \
         librsync-dev \
+        libssl-dev \
+        libffi-dev \
     && \
     apt-get clean
 

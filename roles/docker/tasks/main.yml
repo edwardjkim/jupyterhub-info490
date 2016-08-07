@@ -28,7 +28,7 @@
       to: /root/.docker/key.pem
 
 - name: docker-py
-  pip: name=docker-py state=present version=1.1.0
+  pip: name=docker-py state=latest
 
 - name: stop running docker containers
   shell: docker stop $(docker ps -a -q) || true
@@ -60,7 +60,7 @@
   when: reboot.changed
 
 - name: install docker-compose
-  shell: curl -L https://github.com/docker/compose/releases/download/1.5.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+  shell: curl -L https://github.com/docker/compose/releases/download/1.8.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
 
 - name: make docker-compose executable
   file: path=/usr/local/bin/docker-compose mode="u+x"

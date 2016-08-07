@@ -1,0 +1,25 @@
+---
+- name: create the spark directory
+  file: path=/srv/spark state=directory
+  tags:
+  - spark
+
+- name: copy the Dockerfile to the hadoop directory
+  template: src=Dockerfile.spark.j2 dest=/srv/spark/Dockerfile
+  tags:
+  - spark
+
+- name: copy singleuser.sh to the singleuser directory
+  copy: src=singleuser.sh dest=/srv/spark/singleuser.sh
+  tags:
+  - spark
+
+- name: pull lcdm/info490-spark image
+  shell: docker pull lcdm/info490-spark
+  tags:
+  - spark
+
+- name: build spark image
+  shell: docker build -t spark /srv/spark
+  tags:
+  - spark
