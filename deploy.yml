@@ -29,11 +29,15 @@
   roles:
   - nfs_server
   - duplicity
+  tags:
+  - nfs
 
 - hosts:
   - jupyterhub_nodes
   roles:
   - nfs_client
+  tags:
+  - nfs
 
 - hosts:
   - jupyterhub_host

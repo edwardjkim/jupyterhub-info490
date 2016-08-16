@@ -11,12 +11,14 @@ RUN apt-get update && \
         python-dev \
         python-pip \
         librsync-dev \
-        libssl-dev \
         libffi-dev \
+        libssl-dev \
     && \
     apt-get clean
 
-RUN pip install \
+RUN pip install pip --upgrade && \
+    pip install \
+        cryptography \
         paramiko \
         pycrypto \
         boto \
