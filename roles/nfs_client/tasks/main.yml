@@ -5,5 +5,14 @@
 - name: unmount home
   shell: umount /home || true
 
+- name: unmount exchange
+  shell: umount {{ exchange_directory }} || true
+
 - name: mount home
   mount: name=/home src={{ hostvars['nfs_server']['private_ip'] }}:/home fstype=nfs opts={{ nfsoptions }} state=mounted
+
+- name: mount exchange
+  mount: name={{ exchange_directory }} src={{ hostvars['nfs_server']['private_ip'] }}:/exchange fstype=nfs opts={{ nfsoptions }} state=mounted
+
+- name: update course git repo
+  git: repo=https://github.com/UI-DataScience/info490-fa16 dest=/srv/shared/info490-fa16 update=yes

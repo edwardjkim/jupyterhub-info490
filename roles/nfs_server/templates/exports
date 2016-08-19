@@ -1,4 +1,5 @@
-{% for host in groups['jupyterhub_nodes'] %}
+{% for host in groups['nfs_clients'] %}
 /mnt/volume {{ hostvars[host]['private_ip'] }}(rw,fsid=0,no_root_squash,no_subtree_check,sync)
 /mnt/volume/home {{ hostvars[host]['private_ip'] }}(rw,no_root_squash,no_subtree_check,sync)
+/mnt/volume/exchange {{ hostvars[host]['private_ip'] }}(rw,no_root_squash,no_subtree_check,sync)
 {% endfor %}

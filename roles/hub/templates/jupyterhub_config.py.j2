@@ -31,13 +31,15 @@ c.DockerSpawner.tls_cert = os.environ['DOCKER_TLS_CERT']
 c.DockerSpawner.tls_key = os.environ['DOCKER_TLS_KEY']
 c.DockerSpawner.remove_containers = True
 c.DockerSpawner.volumes = {
-    '/home/{username}': '/home/data_scientist'
+    '/home/{username}': '/home/data_scientist',
+    '{{ exchange_directory }}/{username}': '{{ exchange_directory}}'
 }
 c.DockerSpawner.read_only_volumes = {
-    '/srv/shared/data': '/home/data_scientist/data'
+    '/srv/shared/data': '/home/data_scientist/data',
+    '/srv/shared/info490-fa16': '/home/data_scientist/info490-fa16_RO',
 }
 c.SwarmSpawner.singleuser = "data_scientist"
-
+c.SwarmSpawner.hostname = "info490rb.studentspace.cs.illinois.edu"
 c.Spawner.http_timeout = 120
 
 with open('/srv/jupyterhub_users/userlist') as f:

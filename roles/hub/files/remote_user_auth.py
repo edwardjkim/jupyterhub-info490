@@ -1,4 +1,3 @@
-# https://github.com/cwaldbieser
 import os
 from jupyterhub.handlers import BaseHandler
 from jupyterhub.auth import Authenticator, LocalAuthenticator
@@ -9,18 +8,16 @@ from traitlets import Unicode
 
 class RemoteUserLoginHandler(BaseHandler):
 
+    @gen.coroutine
     def get(self):
-        header_name = self.authenticator.header_name
-        remote_user = self.request.headers.get(header_name, "")
-        if remote_user == "":
-            raise web.HTTPError(401)
-        else:
-            if "@" in remote_user:
-                remote_user = remote_user.split("@")[0]
-            user = self.user_from_username(remote_user)
+        username = yield self.authenticator.get_authenticated_user(self, None)
+
+        if username:
+            user = self.user_from_username(username)
             self.set_login_cookie(user)
             self.redirect(url_path_join(self.hub.server.base_url, 'home'))
-
+        else:
+            raise web.HTTPError(403)
 
 class RemoteUserAuthenticator(Authenticator):
     """
@@ -37,8 +34,18 @@ class RemoteUserAuthenticator(Authenticator):
         ]
 
     @gen.coroutine
-    def authenticate(self, *args):
-        raise NotImplementedError()
+    def authenticate(self, handler, data=None):
+        remote_user = handler.request.headers.get(self.header_name, "")
+        if remote_user == "":
+            raise web.HTTPError(401)
+        else:
+            return remote_user.split("@")[0]
+
+    def logout_url(self, base_url):
+        """
+        There is nowhere to log out, so point to /.
+        """
+        return '/'
 
 
 class LocalRemoteUserAuthenticator(LocalAuthenticator, RemoteUserAuthenticator):

@@ -29,11 +29,11 @@
 - name: start rpcbind
   service: name=rpcbind state=started
 
-- name: start nfs-server
-  service: name=nfs state=started
-
 - name: create /mnt/volume/home
   file: path=/mnt/volume/home state=directory
+
+- name: create /mnt/volume/home
+  file: path=/mnt/volume/exchange state=directory
 
 - name: create home directories
   file: path=/mnt/volume/home/{{ item }} state=directory group=1000 owner=1000 recurse=yes
@@ -42,3 +42,14 @@
   - "{{ jupyterhub_users }}"
   tags:
   - add_users
+
+- name: create exchange directories
+  file: path=/mnt/volume/exchange/{{ item }} state=directory group=1000 owner=1000 recurse=yes
+  with_items:
+  - "{{ jupyterhub_admins }}"
+  - "{{ jupyterhub_users }}"
+  tags:
+  - add_users
+
+- name: start nfs-server
+  service: name=nfs state=started

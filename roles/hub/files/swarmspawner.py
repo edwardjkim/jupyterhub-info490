@@ -19,6 +19,10 @@ class SwarmSpawner(DockerSpawner):
 
     singleuser = Unicode('jupyter', config=True)
 
+    hostname = Unicode('jupyter', config=True)
+
+    root_dir = Unicode('/export/home', config=True)
+
     @gen.coroutine
     def lookup_node_name(self):
         """Find the name of the swarm node that the container is running on."""
@@ -46,13 +50,20 @@ class SwarmSpawner(DockerSpawner):
         if extra_host_config is None:
             extra_host_config = {}
         if 'mem_limit' not in extra_host_config:
-            extra_host_config['mem_limit'] = '512m'
+            extra_host_config['mem_limit'] = '1g'
 
         # specify extra creation options
         if extra_create_kwargs is None:
             extra_create_kwargs = {}
         if 'working_dir' not in extra_create_kwargs:
             extra_create_kwargs['working_dir'] = "/home/{}".format(self.singleuser)
+            extra_create_kwargs['hostname'] = self.hostname
+
+        # create and set permissions of home dir if it doesn't exist
+        user_dir = os.path.join(self.root_dir, self.user.name)
+        if not os.path.exists(user_dir):
+            os.makedirs(user_dir)
+        os.chown(user_dir, 1000, 1000)
 
         # start the container
         yield DockerSpawner.start(

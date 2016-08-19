@@ -31,6 +31,7 @@ jupyterhub:
   volumes:
     - /srv/jupyterhub_users:/srv/jupyterhub_users
     - /root/.docker:/root/.docker
+    - /home:/export/home
   links:
     - swarm
 
