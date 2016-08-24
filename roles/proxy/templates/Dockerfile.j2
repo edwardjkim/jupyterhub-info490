@@ -1,35 +1,37 @@
-FROM centos:centos7
+FROM edwardjkim/httpd
 
 MAINTAINER Edward J Kim <edward.junhyung.kim@gmail.com>
 
 RUN yum -y update && \
-    yum -y install vim wget && \
     wget -P /etc/yum.repos.d \
         http://download.opensuse.org/repositories/security://shibboleth/CentOS_7/security:shibboleth.repo && \
-    yum -y install httpd shibboleth.x86_64 libcurl-openssl libcurl-openssl-devel && \
+    yum -y install shibboleth.x86_64 libcurl-openssl libcurl-openssl-devel && \
     chmod +x /etc/shibboleth/shibd-redhat && \
-    yum -y install mod_ssl
+    # http://esoterica.itcs.illinois.edu/linux/packages/uiuc-intermediates.html
+    yum -y install --nogpgcheck http://esoterica.itcs.illinois.edu/linux/packages/ca-chained-bundle-latest.noarch.rpm
 
-RUN cd /etc/httpd/conf && \
+RUN cd $HTTPD_PREFIX/conf && \
     echo 'UseCanonicalName On' >> httpd.conf && \
-    echo 'LoadModule proxy_module modules/mod_proxy.so' >> httpd.conf && \
-    echo 'LoadModule proxy_http_module modules/mod_proxy_http.so' >> httpd.conf && \
-    echo 'LoadModule ssl_module modules/mod_ssl.so' >> httpd.conf && \
-    echo 'LoadModule proxy_wstunnel_module mod_proxy_wstunnel.so' >> httpd.conf && \
-    echo 'Include /etc/httpd/conf/extra/httpd-vhosts.conf' >> httpd.conf
+    echo 'LoadModule proxy_module lib64/httpd/modules/mod_proxy.so' >> httpd.conf && \
+    echo 'LoadModule proxy_http_module lib64/httpd/modules/mod_proxy_http.so' >> httpd.conf && \
+    echo 'LoadModule ssl_module lib64/httpd/modules/mod_ssl.so' >> httpd.conf && \
+    echo 'LoadModule proxy_wstunnel_module lib64/httpd/modules/mod_proxy_wstunnel.so' >> httpd.conf && \
+    echo "Include $HTTPD_PREFIX/conf/extra/httpd-vhosts.conf" >> httpd.conf && \
+    echo "Include $HTTPD_PREFIX/conf.d/shib.conf" >> httpd.conf
 
-COPY httpd-vhosts.conf /etc/httpd/conf/extra/httpd-vhosts.conf
-COPY shib.conf /etc/httpd/conf.d/shib.conf
-COPY 00-mpm.conf /etc/httpd/conf.modules.d/00-mpm.conf
+COPY httpd-vhosts.conf "$HTTPD_PREFIX/conf/extra/httpd-vhosts.conf"
 COPY httpd-foreground /usr/local/bin/
 
+COPY index.html /var/www/html/index.html
+COPY style.css /var/www/html/style.css
+COPY EY.gif /var/www/html/EY.gif
+COPY EYlogo.ico /var/www/html/EYlogo.ico
+
+COPY shib.conf "$HTTPD_PREFIX/conf.d/shib.conf"
 COPY shibboleth2.xml /etc/shibboleth/shibboleth2.xml
 COPY attribute-map.xml /etc/shibboleth/attribute-map.xml
-
 COPY itrust.pem /etc/shibboleth/itrust.pem
 COPY sp-cert.pem /etc/shibboleth/sp-cert.pem
 COPY sp-key.pem /etc/shibboleth/sp-key.pem
-
-EXPOSE 80 443
 
 CMD ["/usr/local/bin/httpd-foreground"]

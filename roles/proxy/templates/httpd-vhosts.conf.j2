@@ -4,6 +4,7 @@
     Redirect permanent / https://{{ ansible_host }}/
 </VirtualHost>
 
+Listen 443
 <VirtualHost *:443>
     ServerName {{ ansible_host }}
     SSLEngine On
