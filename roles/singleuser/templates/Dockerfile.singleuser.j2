@@ -2,9 +2,14 @@ FROM lcdm/info490:fa16
 
 USER root
 
+ADD nbgrader_config.py /opt/conda/etc/jupyter/nbgrader_config.py
+RUN pip install git+https://github.com/EdwardJKim/nbgrader && \
+    nbgrader extension install
+
 CMD ["start-singleuser.sh"]
 
 USER $NB_USER
+ENV TZ America/Chicago
 
 ENV PYTHONPATH /home/$NB_USER/.info490/rubric:$PYTHONPATH
 ENV NLTK_DATA /home/$NB_USER/data/nltk_data:$NLTK_DATA

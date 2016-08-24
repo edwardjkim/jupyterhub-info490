@@ -14,6 +14,10 @@
   tags:
   - singleuser
 
+- name: copy nbgrader_config.py
+  copy: src=nbgrader_config.py dest=/srv/singleuser/nbgrader_config.py
+  - singleuser
+
 - name: pull lcdm/info490 image
   shell: docker pull lcdm/info490:latest
   tags:

@@ -1,6 +1,7 @@
 from tornado import gen
 from dockerspawner import DockerSpawner
 import os
+import stat
 from traitlets import Unicode
 
 # urllib3 complains that we're making unverified HTTPS connections to swarm,
@@ -21,7 +22,9 @@ class SwarmSpawner(DockerSpawner):
 
     hostname = Unicode('jupyter', config=True)
 
-    root_dir = Unicode('/export/home', config=True)
+    root_dir = Unicode('/export', config=True)
+
+    course_id = Unicode('info490', config=True)
 
     @gen.coroutine
     def lookup_node_name(self):
@@ -60,10 +63,27 @@ class SwarmSpawner(DockerSpawner):
             extra_create_kwargs['hostname'] = self.hostname
 
         # create and set permissions of home dir if it doesn't exist
-        user_dir = os.path.join(self.root_dir, self.user.name)
-        if not os.path.exists(user_dir):
-            os.makedirs(user_dir)
-        os.chown(user_dir, 1000, 1000)
+        home_dir = os.path.join(self.root_dir, 'home', self.user.name)
+        if not os.path.exists(home_dir):
+            os.makedirs(home_dir)
+            os.chown(home_dir, 1000, 100)
+
+        exchange_dir = os.path.join(self.root_dir, 'exchange', self.user.name)
+        if not os.path.exists(exchange_dir):
+            os.makedirs(exchange_dir)
+        os.chown(exchange_dir, 1000, 100)
+
+        inbound_dir = os.path.join(
+            self.root_dir, 'exchange', self.user.name, self.course_id, 'inbound'
+        )
+        if not os.path.exists(inbound_dir):
+            os.makedirs(inbound_dir)
+        os.chown(inbound_dir, 0, 0)
+        os.chmod(
+            inbound_dir,
+            stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR |
+                stat.S_IWGRP | stat.S_IXGRP | stat.S_IWOTH | stat.S_IXOTH
+        )
 
         # start the container
         yield DockerSpawner.start(
