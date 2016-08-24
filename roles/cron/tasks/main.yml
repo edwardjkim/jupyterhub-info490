@@ -1,0 +1,45 @@
+---
+- name: create the cron directory
+  file: path=/srv/cron state=directory
+  tags:
+  - cron
+
+- name: copy crontab
+  template: src=crontab.j2 dest=/srv/cron/crontab
+  tags:
+  - cron
+
+- name: copy Dockerfile for cron
+  copy: src=Dockerfile dest=/srv/cron/Dockerfile
+  tags:
+  - cron
+
+- name: install docker-compose.yml
+  template: src=docker-compose.yml dest=/root/docker-compose.yml
+  tags:
+  - cron
+
+- name: stop docker containers
+  command: docker-compose stop
+  tags:
+  - cron
+
+- name: remove docker containers
+  command: docker-compose rm -f
+  tags:
+  - cron
+
+- name: pull docker images
+  command: docker-compose pull
+  tags:
+  - cron
+
+- name: build docker images
+  command: docker-compose build
+  tags:
+  - cron
+
+- name: start services
+  command: docker-compose up -d
+  tags:
+  - cron

@@ -1,0 +1,5 @@
+cron:
+    build: /srv/cron
+    restart: always
+    volumes:
+      - /export:/export

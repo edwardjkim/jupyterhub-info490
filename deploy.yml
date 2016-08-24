@@ -28,6 +28,7 @@
   - vars.yml
   roles:
   - nfs_server
+  - cron
 #  - duplicity
   tags:
   - nfs
