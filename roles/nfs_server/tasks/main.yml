@@ -20,11 +20,11 @@
 - name: mount storage volume
   mount: name=/mnt/volume src=/dev/sdb fstype=ext4 state=mounted
 
-#- name: bind mount to export directory
-#  mount: name=/export src=/mnt/volume fstype=none opts=bind state=mounted
-#
-#- name: install /etc/exports
-#  template: src=exports dest=/etc/exports mode=0644
+- name: bind mount to export directory
+  mount: name=/export src=/mnt/volume fstype=none opts=bind state=mounted
+
+- name: install /etc/exports
+  template: src=exports dest=/etc/exports mode=0644
 
 - name: start rpcbind
   service: name=rpcbind state=started
@@ -50,6 +50,9 @@
   - "{{ jupyterhub_users }}"
   tags:
   - add_users
+
+- name: clone git repo
+  git: repo=https://github.com/ui-datascience/info490-fa16 dest=/mnt/volume/shared/info490-fa16
 
 - name: start nfs-server
   service: name=nfs state=started
