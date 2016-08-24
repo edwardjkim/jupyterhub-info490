@@ -22,11 +22,6 @@ RUN cd $HTTPD_PREFIX/conf && \
 COPY httpd-vhosts.conf "$HTTPD_PREFIX/conf/extra/httpd-vhosts.conf"
 COPY httpd-foreground /usr/local/bin/
 
-COPY index.html /var/www/html/index.html
-COPY style.css /var/www/html/style.css
-COPY EY.gif /var/www/html/EY.gif
-COPY EYlogo.ico /var/www/html/EYlogo.ico
-
 COPY shib.conf "$HTTPD_PREFIX/conf.d/shib.conf"
 COPY shibboleth2.xml /etc/shibboleth/shibboleth2.xml
 COPY attribute-map.xml /etc/shibboleth/attribute-map.xml
