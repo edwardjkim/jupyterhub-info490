@@ -3,10 +3,10 @@ FROM jupyterhub/jupyterhub:0.6.1
 MAINTAINER Edward J Kim <edward.junhyung.kim@gmail.com>
 
 RUN apt-get update && \
-    pip3 install --upgrade pip && \
-    pip3 install docker-py && \
-    pip3 install git+git://github.com/jupyter/dockerspawner.git && \
-    pip3 install git+git://github.com/jupyter/oauthenticator.git
+    pip install --upgrade pip && \
+    pip install docker-py && \
+    pip install git+git://github.com/jupyter/dockerspawner.git && \
+    pip install git+git://github.com/jupyter/oauthenticator.git
 
 RUN mkdir /srv/jupyterhub_config
 WORKDIR /srv/jupyterhub_config
