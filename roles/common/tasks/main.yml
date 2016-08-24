@@ -13,3 +13,6 @@
 
 - name: remove yum-cron
   yum: name=yum-cron state=absent
+
+- name: install git
+  yum: name=git state=latest
