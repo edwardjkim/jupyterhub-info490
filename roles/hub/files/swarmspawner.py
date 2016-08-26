@@ -87,6 +87,18 @@ class SwarmSpawner(DockerSpawner):
                 stat.S_IWGRP | stat.S_IXGRP | stat.S_IWOTH | stat.S_IXOTH
         )
 
+        outbound_dir = os.path.join(
+            self.root_dir, 'exchange', self.user.name, self.course_id, 'outbound'
+        )
+        if not os.path.exists(outbound_dir):
+            os.makedirs(outbound_dir)
+        os.chown(inbound_dir, 0, 0)
+        os.chmod(
+            outbound_dir,
+            stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR |
+                stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH
+        )
+
         # start the container
         yield DockerSpawner.start(
             self, image=image,

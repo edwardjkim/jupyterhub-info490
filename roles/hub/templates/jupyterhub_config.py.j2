@@ -36,8 +36,7 @@ c.DockerSpawner.volumes = {
 }
 c.DockerSpawner.read_only_volumes = {
     '/srv/shared/data': '/home/data_scientist/data',
-    '/shared/info490-fa16': '/home/data_scientist/info490-fa16_RO',
-    '/shared/outbound': '{{exchange_directory}}/info490-fa16/outbound'
+    '/shared/info490-fa16': '/home/data_scientist/info490-fa16_RO'
 }
 c.SwarmSpawner.singleuser = "data_scientist"
 c.SwarmSpawner.hostname = "info490rb.studentspace.cs.illinois.edu"

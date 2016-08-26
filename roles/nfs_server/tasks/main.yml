@@ -52,7 +52,15 @@
   - add_users
 
 - name: create exchange/inbound directories
-  file: path=/mnt/volume/exchange/{{ item }}/info490-fa16/inbound state=directory group=root owner=root mode=0733
+  file: path=/mnt/volume/exchange/{{ item }}/info490-fa16/inbound state=directory group=root owner=root mode=0733 recurse=yes
+  with_items:
+  - "{{ jupyterhub_admins }}"
+  - "{{ jupyterhub_users }}"
+  tags:
+  - add_users
+
+- name: create exchange/outbound directories
+  file: path=/mnt/volume/exchange/{{ item }}/info490-fa16/outbound state=directory group=root owner=root mode=0755 recurse=yes
   with_items:
   - "{{ jupyterhub_admins }}"
   - "{{ jupyterhub_users }}"
@@ -64,9 +72,6 @@
 
 - name: git clone info490-fa16 repo
   git: repo=https://github.com/ui-datascience/info490-fa16 dest=/mnt/volume/shared/info490-fa16
-
-- name: create outbound directory
-  file: path=/mnt/volume/shared/outbound state=directory group=root owner=root mode=0755
 
 - name: start nfs-server
   service: name=nfs state=started
