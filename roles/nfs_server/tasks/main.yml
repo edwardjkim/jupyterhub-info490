@@ -44,7 +44,7 @@
   - add_users
 
 - name: create exchange directories
-  file: path=/mnt/volume/exchange/{{ item }}/info490-fa16 state=directory group=100 owner=1000 recurse=yes
+  file: path=/mnt/volume/exchange/{{ item }}/{{ course_id }} state=directory group=100 owner=1000 recurse=yes
   with_items:
   - "{{ jupyterhub_admins }}"
   - "{{ jupyterhub_users }}"
@@ -52,7 +52,7 @@
   - add_users
 
 - name: create exchange/inbound directories
-  file: path=/mnt/volume/exchange/{{ item }}/info490-fa16/inbound state=directory group=root owner=root mode=0733 recurse=yes
+  file: path=/mnt/volume/exchange/{{ item }}/{{ course_id }}/inbound state=directory group=root owner=root mode=0733 recurse=yes
   with_items:
   - "{{ jupyterhub_admins }}"
   - "{{ jupyterhub_users }}"
@@ -60,7 +60,7 @@
   - add_users
 
 - name: create exchange/outbound directories
-  file: path=/mnt/volume/exchange/{{ item }}/info490-fa16/outbound state=directory group=root owner=root mode=0755 recurse=yes
+  file: path=/mnt/volume/exchange/{{ item }}/{{ course_id }}/outbound state=directory group=root owner=root mode=0755 recurse=yes
   with_items:
   - "{{ jupyterhub_admins }}"
   - "{{ jupyterhub_users }}"
@@ -70,8 +70,8 @@
 - name: create shared directory
   file: path=/mnt/volume/shared state=directory group=root owner=root recurse=yes
 
-- name: git clone info490-fa16 repo
-  git: repo=https://github.com/ui-datascience/info490-fa16 dest=/mnt/volume/shared/info490-fa16
+- name: git clone course_id repo
+  git: repo={{github_repo}} dest=/mnt/volume/shared/{{course_id}}
 
 - name: start nfs-server
   service: name=nfs state=started

@@ -15,7 +15,7 @@
   - singleuser
 
 - name: copy nbgrader_config.py
-  copy: src=nbgrader_config.py dest=/srv/singleuser/nbgrader_config.py
+  template: src=nbgrader_config.py.j2 dest=/srv/singleuser/nbgrader_config.py
   tags:
   - singleuser
 
