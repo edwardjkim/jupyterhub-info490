@@ -9,6 +9,16 @@
   tags:
   - cron
 
+- name: copy release_assignment script
+  copy: src=release_assignment.py dest=/srv/cron/release_assignment.py
+  tags:
+  - cron
+
+- name: create the studentlist
+  template: src=studentlist.j2 dest=/srv/cron/studentlist
+  tags:
+  - cron
+
 - name: copy Dockerfile for cron
   copy: src=Dockerfile dest=/srv/cron/Dockerfile
   tags:
