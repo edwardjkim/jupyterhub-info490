@@ -59,30 +59,34 @@ class ReleaseAssignment(object):
                     continue
                 parts = line.strip().split()
                 name = parts[0]
-                names.update(name)
+                names.add(name)
         return names
+
+    def copy_single(self, assignment, student):
+        target_path = os.path.join(
+            self.export_root, 'exchange', student,
+            self.course_id, 'outbound', assignment
+        )
+        shutil.copytree(self.hw_dir, target_path)
+        sys.stdout.write(
+        "{}: Released assignments from {}\n".format(student, self.hw_dir)
+        )
 
     def copy(self, assignment):
         if self.is_ready():
             for student in self.students:
-                target_path = os.path.join(
-                    self.export_root, 'exchange', student,
-                    self.course_id, 'outbound', assignment
-                )
-                shutil.copytree(self.hw_dir, target_path)
-                sys.stdout.write(
-                "Released assignments for {} from {}\n".format(student, self.hw_dir)
-                )
+                try:
+                    self.copy_single(assignment, student)
+                except Exception, err:
+                    sys.stderr.write("{}: {}\n".format(student, str(err)))
         else:
-            raise RuntimeError("Not ready yet.")
+            sys.stdout.write("Not ready yet.\n")
 
 def main(arg1, arg2):
 
     hw = ReleaseAssignment(arg1)
-    try:
-        hw.copy(arg2)
-    except Exception, err:
-        sys.stderr.write("Assignments: {}\n".format(str(err)))
+    hw.copy(arg2)
+
 
 if __name__ == '__main__':
 
