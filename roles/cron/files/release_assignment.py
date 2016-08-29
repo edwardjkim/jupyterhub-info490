@@ -52,14 +52,14 @@ class ReleaseAssignment(object):
 
     @property
     def students(self):
-        names = []
+        names = set()
         with open(self.student_list) as f:
             for line in f:
                 if line.isspace():
                     continue
                 parts = line.strip().split()
                 name = parts[0]
-                names.append(name)
+                names.update(name)
         return names
 
     def copy(self, assignment):
