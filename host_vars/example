@@ -1,0 +1,18 @@
+---
+# There should be one file per host, named with the inventory hostname. The
+# variables defined in that file will be used for that host. For example, to
+# configure the docker TLS certificates, you would want to have defined:
+
+docker_ca_cert: ''
+docker_tls_cert: ''
+docker_tls_key: ''
+
+# For the proxy server, you would want to have defined:
+
+site_cert: ''
+site_key: ''
+site_cert_path: ''
+site_key_path: ''
+
+shib_cert: ''
+shib_key: ''
