@@ -35,37 +35,45 @@
 - name: create /export/exchange
   file: path=/export/exchange state=directory
 
-- name: create home directories
-  file: path=/mnt/volume/home/{{ item }} state=directory group=100 owner=1000 recurse=yes
-  with_items:
-  - "{{ jupyterhub_admins }}"
-  - "{{ jupyterhub_users }}"
-  tags:
-  - add_users
-
-- name: create exchange directories
-  file: path=/mnt/volume/exchange/{{ item }}/{{ course_id }} state=directory group=100 owner=1000 recurse=yes
-  with_items:
-  - "{{ jupyterhub_admins }}"
-  - "{{ jupyterhub_users }}"
-  tags:
-  - add_users
-
-- name: create exchange/inbound directories
-  file: path=/mnt/volume/exchange/{{ item }}/{{ course_id }}/inbound state=directory group=root owner=root mode=0733 recurse=yes
-  with_items:
-  - "{{ jupyterhub_admins }}"
-  - "{{ jupyterhub_users }}"
-  tags:
-  - add_users
-
-- name: create exchange/outbound directories
-  file: path=/mnt/volume/exchange/{{ item }}/{{ course_id }}/outbound state=directory group=root owner=root mode=0755 recurse=yes
-  with_items:
-  - "{{ jupyterhub_admins }}"
-  - "{{ jupyterhub_users }}"
-  tags:
-  - add_users
+#- name: create home directories
+#  file: path=/mnt/volume/home/{{ item }} state=directory group=100 owner=1000 recurse=yes
+#  with_items:
+#  - "{{ jupyterhub_admins }}"
+#  - "{{ jupyterhub_users }}"
+#  tags:
+#  - add_users
+#
+#- name: create exchange directories
+#  file: path=/mnt/volume/home/{{ item }} state=directory group=100 owner=1000
+#  with_items:
+#  - "{{ jupyterhub_admins }}"
+#  - "{{ jupyterhub_users }}"
+#  tags:
+#  - add_users
+#
+#- name: create exchange/info490-fa16 directories
+#  file: path=/mnt/volume/exchange/{{ item }}/{{ course_id }} state=directory group=100 owner=1000
+#  with_items:
+#  - "{{ jupyterhub_admins }}"
+#  - "{{ jupyterhub_users }}"
+#  tags:
+#  - add_users
+#
+#- name: create inbound directories
+#  file: path=/mnt/volume/exchange/{{ item }}/{{ course_id }}/inbound state=directory group=root owner=root mode=0733 recurse=yes
+#  with_items:
+#  - "{{ jupyterhub_admins }}"
+#  - "{{ jupyterhub_users }}"
+#  tags:
+#  - add_users
+#
+#- name: create outbound directories
+#  file: path=/mnt/volume/exchange/{{ item }}/{{ course_id }}/outbound state=directory group=root owner=root mode=0755 recurse=yes
+#  with_items:
+#  - "{{ jupyterhub_admins }}"
+#  - "{{ jupyterhub_users }}"
+#  tags:
+#  - add_users
 
 - name: create shared directory
   file: path=/mnt/volume/shared state=directory group=root owner=root recurse=yes

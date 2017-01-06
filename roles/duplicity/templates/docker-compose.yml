@@ -2,7 +2,7 @@ duplicity:
   build: /srv/duplicity
   restart: always
   volumes:
-    - {{ backup_source_directory }}:/backup
+    - {{ backup_source_directory }}:/export
     - /root/.cache/duplicity:/root/.cache/duplicity
     - /root/.ssh:/root/.ssh
     - /root/.gnupg:/root/.gnupg

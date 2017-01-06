@@ -29,7 +29,7 @@
   roles:
   - nfs_server
   - cron
-#  - duplicity
+  - duplicity
   tags:
   - nfs
 
@@ -62,8 +62,6 @@
   - vars.yml
   roles:
   - singleuser
-  - hadoop
-  - spark
 
 - hosts: 
   - jupyterhub_host

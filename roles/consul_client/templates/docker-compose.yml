@@ -23,7 +23,7 @@ consul:
 
 
 swarm:
-  image: swarm
+  image: swarm:1.2.5
   restart: always
   volumes:
     - /root/.docker:/root/.docker

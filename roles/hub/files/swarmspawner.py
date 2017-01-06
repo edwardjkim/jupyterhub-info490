@@ -69,11 +69,18 @@ class SwarmSpawner(DockerSpawner):
         os.chown(home_dir, 1000, 100)
 
         exchange_dir = os.path.join(
-            self.root_dir, 'exchange', self.user.name, self.course_id
+            self.root_dir, 'exchange', self.user.name
         )
         if not os.path.exists(exchange_dir):
             os.makedirs(exchange_dir)
         os.chown(exchange_dir, 1000, 100)
+
+        exchange_course_dir = os.path.join(
+            self.root_dir, 'exchange', self.user.name, self.course_id
+        )
+        if not os.path.exists(exchange_course_dir):
+            os.makedirs(exchange_course_dir)
+        os.chown(exchange_course_dir, 1000, 100)
 
         inbound_dir = os.path.join(
             self.root_dir, 'exchange', self.user.name, self.course_id, 'inbound'

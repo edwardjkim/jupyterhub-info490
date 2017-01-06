@@ -25,6 +25,6 @@
   - singleuser
 
 - name: build singleuser image
-  shell: docker build -t singleuser --no-cache /srv/singleuser
+  shell: docker build -t singleuser /srv/singleuser
   tags:
   - singleuser

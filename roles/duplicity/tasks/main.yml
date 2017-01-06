@@ -16,27 +16,45 @@
 
 - name: create directory for duplicity
   file: path=/srv/duplicity state=directory
+  tags:
+  - duplicity
 
 - name: copy dockerfile
   copy: src=Dockerfile dest=/srv/duplicity/Dockerfile
+  tags:
+  - duplicity
 
 - name: copy crontab
   template: src=duplicity-cron.j2 dest=/srv/duplicity/duplicity-cron
+  tags:
+  - duplicity
 
 - name: install docker-compose.yml
   template: src=docker-compose.yml dest=/root/docker-compose.yml
+  tags:
+  - duplicity
 
 - name: stop docker containers
   command: docker-compose stop
+  tags:
+  - duplicity
 
 - name: remove docker containers
   command: docker-compose rm -f
+  tags:
+  - duplicity
 
 - name: pull docker images
   command: docker-compose pull
+  tags:
+  - duplicity
 
 - name: build docker images
   command: docker-compose build
+  tags:
+  - duplicity
 
 - name: start services
   command: docker-compose up -d
+  tags:
+  - duplicity

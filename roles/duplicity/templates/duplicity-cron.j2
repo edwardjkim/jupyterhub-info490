@@ -1,2 +1,2 @@
-20 11 * * * root PASSPHRASE="{{ gpg_pass }}" /usr/local/bin/duplicity --allow-source-mismatch --encrypt-key {{ gpg_key }} --full-if-older-than 7D /backup sftp://root@{{ backup_target_ip }}/{{ backup_target_directory }} >> /var/log/cron.log 2>&1
+40 18 * * * root PASSPHRASE="{{ gpg_pass }}" duplicity --allow-source-mismatch --encrypt-key {{ gpg_key }} --full-if-older-than 7D /export sftp://root@{{ backup_target_ip }}/{{ backup_target_directory }} >> /var/log/cron.log 2>&1
 
