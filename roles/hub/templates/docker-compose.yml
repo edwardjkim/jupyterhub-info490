@@ -38,9 +38,9 @@ jupyterhub:
 cull:
     build: /srv/cull
     restart: always
-    command: --timeout=3600 --cull_every=1800 --url=http://jupyterhub:8081/hub
+    command: --timeout=1800 --cull_every=900 --url=http://jupyterhub:8081/hub/api
     environment:
-      JPY_API_TOKEN:
+      JUPYTERHUB_API_TOKEN:
     volumes:
       - /root/.docker:/root/.docker
     links:
@@ -51,7 +51,7 @@ stats:
     restart: always
     command: --file=/srv/stats_db/activity.sqlite --hub=http://jupyterhub:8081
     environment:
-      JPY_API_TOKEN:
+      JUPYTERHUB_API_TOKEN:
     volumes:
       - /srv/stats_db:/srv/stats_db
     links:
