@@ -76,7 +76,7 @@
   - add_users
 
 - name: create exchange/lesson directories
-  file: path=/mnt/volume/exchange/{{ item }}/accy/lesson state=directory group=root owner=root mode=0755 recurse=yes
+  file: path=/mnt/volume/exchange/{{ item }}/{{ course_id }}/lesson state=directory group=root owner=root mode=0755 recurse=yes
   with_items:
   - "{{ jupyterhub_admins }}"
   - "{{ jupyterhub_users }}"
