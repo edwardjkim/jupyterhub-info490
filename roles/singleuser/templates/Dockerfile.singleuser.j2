@@ -3,9 +3,6 @@ FROM lcdm/info490:latest
 USER root
 
 ADD nbgrader_config.py /opt/conda/etc/jupyter/nbgrader_config.py
-RUN pip uninstall -y nbgrader && \
-    pip install git+https://github.com/EdwardJKim/nbgrader && \
-    nbgrader extension install
 
 CMD ["start-singleuser.sh"]
 

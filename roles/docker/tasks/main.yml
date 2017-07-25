@@ -12,7 +12,7 @@
   copy: src=docker.repo dest=/etc/yum.repos.d/ owner=root group=root mode=0644
 
 - name: install docker engine
-  yum: name=docker-engine state=latest
+  yum: name=docker-engine-1.13.1 state=latest
 
 - name: create docker TLS directory
   file: path=/root/.docker state=directory group=root owner=root mode=0700
@@ -28,7 +28,7 @@
       to: /root/.docker/key.pem
 
 - name: docker-py
-  pip: name=docker-py state=latest
+  pip: name=docker state=present version=2.3.0
 
 - name: stop running docker containers
   shell: docker stop $(docker ps -a -q) || true
@@ -60,7 +60,7 @@
   when: reboot.changed
 
 - name: install docker-compose
-  shell: curl -L https://github.com/docker/compose/releases/download/1.9.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+  shell: curl -L https://github.com/docker/compose/releases/download/1.14.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
 
 - name: make docker-compose executable
   file: path=/usr/local/bin/docker-compose mode="u+x"

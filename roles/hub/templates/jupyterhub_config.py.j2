@@ -27,8 +27,9 @@ c. JupyterHub.confirm_no_ssl = True
 
 c.JupyterHub.spawner_class = 'swarmspawner.SwarmSpawner'
 c.DockerSpawner.container_image = 'singleuser'
-c.DockerSpawner.tls_cert = os.environ['DOCKER_TLS_CERT']
-c.DockerSpawner.tls_key = os.environ['DOCKER_TLS_KEY']
+c.DockerSpawner.tls_config = {
+    'client_cert': (os.environ['DOCKER_TLS_CERT'], os.environ['DOCKER_TLS_KEY'])
+}
 c.DockerSpawner.remove_containers = True
 c.DockerSpawner.volumes = {
     '/home/{username}': '/home/data_scientist',
