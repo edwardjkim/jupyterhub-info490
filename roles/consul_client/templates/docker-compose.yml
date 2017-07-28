@@ -2,25 +2,16 @@ consul:
   build: /srv/consul
   hostname: "{{ inventory_hostname }}"
   restart: always
-  ports:
-    - "{{ private_ip }}:8300:8300"
-    - "{{ private_ip }}:8301:8301"
-    - "{{ private_ip }}:8301:8301/udp"
-    - "{{ private_ip }}:8302:8302"
-    - "{{ private_ip }}:8302:8302/udp"
-    - "{{ private_ip }}:8400:8400"
-    - "{{ private_ip }}:8500:8500"
-    - "{{ private_ip }}:8501:8501"
-    - "{{ docker_bridge_ip }}:53:53/udp"
+  net: host
   volumes:
-    - /srv/consul:/data
     - /root/.docker:/root/.docker
+    - /srv/consul:/consul/data
+    - /root/consul/config:/consul/config
   command: >
-    -rejoin
+    agent
     "-advertise={{ private_ip }}"
-    "-join={{ jupyterhub_host }}"
-    -data-dir=/data
-
+    "-retry-join={{ jupyterhub_host }}"
+    -disable-host-node-id=true
 
 swarm:
   image: swarm:1.2.8

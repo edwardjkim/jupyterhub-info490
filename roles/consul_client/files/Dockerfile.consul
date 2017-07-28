@@ -1,3 +1,0 @@
-FROM gliderlabs/consul-agent:0.6
-
-EXPOSE 8501

@@ -12,13 +12,23 @@
   file: path=/srv/consul state=directory
 
 - name: install custom consul Dockerfile
-  copy: src=Dockerfile.consul dest=/srv/consul/Dockerfile
+  template: src=Dockerfile.j2 dest=/srv/consul/Dockerfile
 
 - name: create consul config directory
-  file: path=/srv/consul/config state=directory
+  file: path=/root/consul/config state=directory
 
 - name: install consul config
-  template: src=consul.json.j2 dest=/srv/consul/config/consul.json
+  template: src=consul.json.j2 dest=/root/consul/config/consul.json
+
+- name: install TLS certificates
+  template: src={{ item.from }} dest={{ item.to }} group=1000 owner=100 mode=0600
+  with_items:
+    - from: ca.pem.j2
+      to: /root/consul/config/ca.pem
+    - from: cert.pem.j2
+      to: /root/consul/config/cert.pem
+    - from: key.pem.j2
+      to: /root/consul/config/key.pem
 
 - name: stop docker containers
   command: docker-compose stop
@@ -27,7 +37,7 @@
   command: docker-compose rm -f
 
 - name: pull docker images
-  command: docker pull gliderlabs/consul-agent:0.6
+  command: docker pull "consul:{{ consul_version }}"
 
 - name: build docker images
   command: docker-compose build
