@@ -4,6 +4,7 @@
   - jupyterhub_host
   - jupyterhub_nodes
   - nfs_server
+  - consul_server
   roles:
   - common
   tags:
@@ -14,6 +15,7 @@
   - jupyterhub_host
   - jupyterhub_nodes
   - nfs_server
+  - consul_server
   vars_files:
   - vars.yml
   roles:

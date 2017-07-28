@@ -1,5 +1,5 @@
 swarm:
-  image: swarm:1.2.8
+  image: "swarm:{{ swarm_version }}"
   restart: always
   command: >
     manage 
