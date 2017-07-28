@@ -20,7 +20,7 @@
   - singleuser
 
 - name: pull lcdm/info490 image
-  shell: docker pull lcdm/info490-hadoop:latest
+  shell: docker pull lcdm/info490:latest
   tags:
   - singleuser
 
