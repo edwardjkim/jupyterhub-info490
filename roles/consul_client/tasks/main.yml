@@ -27,7 +27,7 @@
   command: docker-compose rm -f
 
 - name: pull docker images
-  command: docker-compose pull
+  command: docker pull gliderlabs/consul-agent:0.6
 
 - name: build docker images
   command: docker-compose build
