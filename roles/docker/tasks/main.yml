@@ -36,6 +36,12 @@
 - name: remove docker containers
   shell: docker rm -v $(docker ps -a -q) || true
 
+- name: clean unused docker containers
+  shell: docker rm -v $(docker ps -a -q -f status=exited) || true
+
+- name: clean unused docker images
+  shell: docker rmi $(docker images -f “dangling=true” -q) || true
+
 - name: run docker cleanup cronjob
   cron: name="docker cleanup" minute=15 user="root" job="/usr/bin/docker rmi $(/usr/bin/docker images -q --filter 'dangling=true')"
 
