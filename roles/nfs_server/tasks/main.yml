@@ -52,7 +52,7 @@
   - add_users
 
 - name: create exchange/info490-fa16 directories
-  file: path=/mnt/volume/exchange/{{ item }}/{{ course_id }} state=directory group=100 owner=1000
+  file: path=/mnt/volume/exchange/{{ item }}/{{ course_id }}-assignments state=directory group=100 owner=1000
   with_items:
   - "{{ jupyterhub_admins }}"
   - "{{ jupyterhub_users }}"
@@ -60,7 +60,7 @@
   - add_users
 
 - name: create inbound directories
-  file: path=/mnt/volume/exchange/{{ item }}/{{ course_id }}/inbound state=directory group=root owner=root mode=0733 recurse=yes
+  file: path=/mnt/volume/exchange/{{ item }}/{{ course_id }}-assignments/inbound state=directory group=root owner=root mode=0733 recurse=yes
   with_items:
   - "{{ jupyterhub_admins }}"
   - "{{ jupyterhub_users }}"
@@ -68,7 +68,7 @@
   - add_users
 
 - name: create outbound directories
-  file: path=/mnt/volume/exchange/{{ item }}/{{ course_id }}/outbound state=directory group=root owner=root mode=0755 recurse=yes
+  file: path=/mnt/volume/exchange/{{ item }}/{{ course_id }}-assignments/outbound state=directory group=root owner=root mode=0755 recurse=yes
   with_items:
   - "{{ jupyterhub_admins }}"
   - "{{ jupyterhub_users }}"
@@ -79,7 +79,7 @@
   file: path=/mnt/volume/shared state=directory group=root owner=root recurse=yes
 
 - name: git clone course_id repo
-  git: repo={{github_repo}} dest=/mnt/volume/shared/{{course_id}}
+  git: repo=https://{{ github_user }}:{{ github_password }}@github.com/{{github_repo}}.git dest=/mnt/volume/shared/{{course_id}}
 
 - name: start nfs-server
   service: name=nfs state=started

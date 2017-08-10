@@ -10,7 +10,7 @@ consul:
   command: >
     agent
     "-advertise={{ private_ip }}"
-    "-retry-join={{ jupyterhub_host }}"
+    "-retry-join={{ consul_server }}"
     -disable-host-node-id=true
 
 swarm:
@@ -24,4 +24,4 @@ swarm:
     --discovery-opt kv.cacertfile=/root/.docker/ca.pem
     --discovery-opt kv.certfile=/root/.docker/cert.pem
     --discovery-opt kv.keyfile=/root/.docker/key.pem
-    "consul://{{ jupyterhub_host }}:8501/swarm"
+    "consul://{{ consul_server }}:8501/swarm"

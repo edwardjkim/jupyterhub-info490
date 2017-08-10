@@ -1,4 +1,5 @@
 c = get_config()
 
-c.NbGrader.course_id = '{{ course_id }}'
-c.TransferApp.timezone = 'CDT'
+c.Exchange.course_id = "{{ course_id }}-assignments"
+c.Exchange.timezone = 'CDT'
+c.Exchange.path_includes_course = True

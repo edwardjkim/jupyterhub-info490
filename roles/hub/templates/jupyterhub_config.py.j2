@@ -37,11 +37,11 @@ c.DockerSpawner.volumes = {
 }
 c.DockerSpawner.read_only_volumes = {
     '/srv/shared/data': '/home/data_scientist/data',
-    '/shared/{{ course_id }}': '/home/data_scientist/{{course_id}}_RO'
+    '/shared/{{ course_id }}': '/home/data_scientist/{{course_id}}-readonly'
 }
 c.SwarmSpawner.singleuser = "data_scientist"
 c.SwarmSpawner.hostname = "info490rb.studentspace.cs.illinois.edu"
-c.SwarmSpawner.course_id = "{{course_id}}"
+c.SwarmSpawner.course_id = "{{course_id}}-assignments"
 c.Spawner.http_timeout = 120
 
 with open('/srv/jupyterhub_users/userlist') as f:

@@ -11,3 +11,13 @@ ENV TZ America/Chicago
 
 ENV PYTHONPATH /home/$NB_USER/.info490/rubric:$PYTHONPATH
 ENV NLTK_DATA /home/$NB_USER/data/nltk_data:$NLTK_DATA
+
+# Install and enable extensions
+# https://nbgrader.readthedocs.io/en/stable/user_guide/installation.html
+RUN jupyter nbextension install --sys-prefix --py nbgrader
+RUN jupyter nbextension enable --sys-prefix --py nbgrader
+RUN jupyter serverextension enable --sys-prefix --py nbgrader
+
+# disable formgrader
+RUN jupyter nbextension disable --sys-prefix formgrader/main --section=tree
+RUN jupyter serverextension disable --sys-prefix nbgrader.server_extensions.formgrader
