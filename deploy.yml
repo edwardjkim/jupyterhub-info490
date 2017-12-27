@@ -28,13 +28,6 @@
   vars_files:
   - users.yml
   - vars.yml
-  vars_prompt: 
-  - name: "github_user" 
-    prompt: "Enter your github username" 
-    private: no 
-  - name: "github_password" 
-    prompt: "Enter your github password" 
-    private: yes 
   roles:
   - nfs_server
   - cron

@@ -2,4 +2,6 @@ cron:
     build: /srv/cron
     restart: always
     volumes:
-      - /export:/export
+    - "/export:/export"
+    - "/etc/timezone:/etc/timezone:ro"
+    - "/etc/localtime:/etc/localtime:ro"

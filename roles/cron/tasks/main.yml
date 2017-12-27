@@ -9,11 +9,6 @@
   tags:
   - cron
 
-- name: copy release_assignment script
-  copy: src=release_assignment.py dest=/srv/cron/release_assignment.py
-  tags:
-  - cron
-
 - name: create the studentlist
   template: src=studentlist.j2 dest=/srv/cron/studentlist
   tags:
@@ -24,32 +19,27 @@
   tags:
   - cron
 
-- name: install docker-compose.yml
-  template: src=docker-compose.yml dest=/root/docker-compose.yml
+- name: copy release_to_students.sh
+  copy: src=release_to_students.sh dest=/srv/cron/release_to_students.sh
   tags:
   - cron
 
-- name: stop docker containers
-  command: docker-compose stop
+- name: copy collect.sh
+  copy: src=collect.sh dest=/srv/cron/collect.sh
   tags:
   - cron
 
-- name: remove docker containers
-  command: docker-compose rm -f
+- name: stop and remove cron container
+  shell: docker ps | grep root_cron_1 > /dev/null && docker rm -f root_cron_1 || true
   tags:
   - cron
 
-- name: pull docker images
-  command: docker-compose pull
+- name: bulid cron image
+  command: docker build -t cron /srv/cron
   tags:
   - cron
 
-- name: build docker images
-  command: docker-compose build
-  tags:
-  - cron
-
-- name: start services
-  command: docker-compose up -d
+- name: run cron container
+  command: docker run -d --name root_cron_1 -v /export:/export cron
   tags:
   - cron

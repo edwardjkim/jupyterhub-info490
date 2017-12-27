@@ -29,17 +29,17 @@ ca_name = "ca"
 # then the base name is 'hub'.
 name_map = {
     "proxy_server": "proxy_server",
-    "jupyterhub_host": "jupyterhub_host",
-    "jupyterhub_node0": "jupyterhub_node0",
-    "jupyterhub_node1": "jupyterhub_node1",
-    "jupyterhub_node2": "jupyterhub_node2",
-    "jupyterhub_node3": "jupyterhub_node3",
-    "jupyterhub_node4": "jupyterhub_node4",
-    "jupyterhub_node5": "jupyterhub_node5",
-    "jupyterhub_node6": "jupyterhub_node6",
-    "jupyterhub_node7": "jupyterhub_node7",
-    "jupyterhub_node8": "jupyterhub_node8",
-    "jupyterhub_node9": "jupyterhub_node9",
+    "jupyterhub_node05": "jupyterhub_node05",
+    "jupyterhub_node06": "jupyterhub_node06",
+    "jupyterhub_node07": "jupyterhub_node07",
+    "jupyterhub_node08": "jupyterhub_node08",
+    "jupyterhub_node09": "jupyterhub_node09",
+    "jupyterhub_node10": "jupyterhub_node10",
+    "jupyterhub_node11": "jupyterhub_node11",
+    "jupyterhub_node12": "jupyterhub_node12",
+    "jupyterhub_node13": "jupyterhub_node13",
+    "jupyterhub_node14": "jupyterhub_node14",
+    "jupyterhub_node15": "jupyterhub_node15",
     "nfs_server": "nfs_server"
 }
 
