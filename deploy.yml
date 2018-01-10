@@ -31,7 +31,7 @@
   roles:
   - nfs_server
   - cron
-  - duplicity
+#  - duplicity
   tags:
   - nfs
   - nfs_server
